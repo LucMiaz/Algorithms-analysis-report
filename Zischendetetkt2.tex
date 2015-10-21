@@ -1,8 +1,15 @@
-\documentclass{article}
-
+\documentclass[11pt,a4paper,DIV9,BCOR1.5mm,twoside]{scrartcl}
+\usepackage{import}
+\subimport*{}{packages/Bericht_Hoch.tex}
+\subimport*{}{packages/colors.tex}
 \usepackage{Sweave}
 \begin{document}
 \input{Zischendetetkt2-concordance}
 \begin{Schunk}
 \begin{Sinput}
 > library(jsonlite)
+> library(ggplot2)
+> library(dplyr)
+> library(RColorBrewer)
+> json_file='Datamaous.json'
+> tf<-fromJSON(json_file)

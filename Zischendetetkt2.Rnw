@@ -1,5 +1,7 @@
-\documentclass{article}
-
+\documentclass[11pt,a4paper,DIV9,BCOR1.5mm,twoside]{scrartcl}
+\usepackage{import}
+\subimport*{}{packages/Bericht_Hoch.tex}
+\subimport*{}{packages/colors.tex}
 \begin{document}
 \SweaveOpts{concordance=TRUE}
 <<>>=
@@ -7,19 +9,12 @@ library(jsonlite)
 library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
-json_file<-'C:/LucMiaz/KG_dev_branch/KG/Measurements_example/MBBMZugExample/results/test_ZischenDetetkt2_2.0s_3000Hz_0dB_20-10-2015_14-59-39.json'
-dataraw<-fromJSON(json_file)
-tf<-dataraw$R
-tf <- filter(tf, !is.nan(BPR))
-tprfpr <- data.frame(TPR=double(), FPR=double(),threshold=double())
-authors=paste(unique(tf$author), sep=", ")
-for(i in seq(0.1,1,0.01)){
-  result<- tf$BPR<i
-  tf<-tf %>% mutate_(leqBPR=paste(as.numeric(result)))
-  len<-length(tf$leqBPR[!is.na(tf$leqBPR)])
-  tprfpr <- rbind(tprfpr,data.frame(TPR=sum(tf$leqBPR[tf$disc==1 & !is.na(tf$leqBPR)])/len, FPR=sum(tf$leqBPR[tf$disc==0 &!is.na(tf$leqBPR)])/len, threshold=i))
-}
-tf$leqBPR<- NULL
+json_file='Datamaous.json'
+tf<-fromJSON(json_file)
+remove(json_file)
+clusters<-kmeans(tf$spec,100)
+#to do add clusters$cluster column to tf and then merge by groups...
+#tf<-cbind()
 @
 \begin{figure}
 <<fig=TRUE,echo=FALSE>>=
