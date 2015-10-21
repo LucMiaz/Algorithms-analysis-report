@@ -23,15 +23,15 @@ tf$leqBPR<- NULL
 @
 \begin{figure}
 <<fig=TRUE,echo=FALSE>>=
-barplot<-ggplot(data=tf, aes(BPR, fill=as.factor(disc)))+
-   geom_histogram(binwidth=0.2,alpha = 0.5, aes(y = ..density..), position = 'identity')
-barplot
+# barplot<-ggplot(data=tf, aes(BPR, fill=as.factor(disc)))+
+#    geom_histogram(binwidth=0.2,alpha = 0.5, aes(y = ..density..), position = 'identity')
+# barplot
 @
 \end{figure}
 \begin{figure}
 <<fig=TRUE,echo=FALSE>>=
-rocplot<-ggplot(tprfpr, aes(tprfpr$TPR,tprfpr$FPR))
-rocplot+geom_point()
+# rocplot<-ggplot(tprfpr, aes(tprfpr$TPR,tprfpr$FPR))
+# rocplot+geom_point()
 @
 \end{figure}
 

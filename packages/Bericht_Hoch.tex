@@ -1,0 +1,743 @@
+%Knitr Options
+\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+%change main font with XeLaTeX
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{Times New Roman}\newfontfamily\Garamond{Adobe Garamond Pro}\setsansfont{Helvetica Neue}\newfontfamily\Skia{Helvetica Neue}
+%\setmainfont[Ligatures=TeX]{Tahoma}\newfontfamily\Garamond{Tahoma}\setsansfont{Tahoma}\newfontfamily\Skia{Tahoma}
+
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage[ngerman, english, french]{babel}
+   \usepackage[T1]{fontenc}
+%\setmain
+%FONTS%
+\usepackage{mathpple}
+%\usepackage{fouriernc}%\usepackage{mathtime} % times%\usepackage{mbtimes}%\usepackage[condensed,math]{anttor}
+\usepackage{helvet}
+%\renewcommand*\familydefault{\sfdefault}%\usepackage[eulergreek,EULERGREEK]{sansmath}%\sansmath
+% 
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{graphicx, rotating,xcolor,placeins,tabularx,booktabs,caption}
+\usepackage{tikz}\usepackage{tikz-qtree}\usepackage{xcolor}\usetikzlibrary{decorations.pathreplacing}
+\usepackage{pdflscape,geometry,scrpage2,titling}
+%\usepackage{draftwatermark}
+\usepackage{translator}
+%
+\usepackage{siunitx}
+\sisetup{
+group-separator={\textquoteright}, 
+group-minimum-digits = 4,
+separate-uncertainty = true, 
+list-final-separator = { und }, 
+range-phrase = { -- }
+%output-decimal-marker={,}%group-digits=true,%group-four-digits=false,% default setting
+}
+\DeclareSIUnit[number-unit-product = \;]\CHF{ CHF }
+\DeclareSIPrefix\Mio{Mio }{6}
+%Bibliography%
+\usepackage[ citestyle=verbose-trad1,backend=biber]{biblatex}
+\addbibresource{SBBbib.bib}
+% % % % % % % % % % % % % % % % % % % % % % %
+%TITLEPAGE%
+\author{Enzo Scossa-Romano \and Jakob Oertli}
+\date{\today}
+\title{Erprobung von Schienendämpfern}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\newgeometry{left=25mm, right=15mm, top=8mm, bottom=15mm}
+\begin{titlepage}
+	\sffamily
+	\begin{flushright}
+	\includegraphics[width=60mm]{logo.pdf}
+	\end{flushright}
+	\vspace{10\baselineskip}
+	\parbox{165mm}{{\noindent\Huge\bfseries \thetitle}\\[1\baselineskip]
+	\noindent\Large\bfseries Abschätzung der Anzahl Kilometer und Investitionskosten beim Einbau von  Schienendämpfern.}
+	\\[8\baselineskip]
+	{\footnotesize
+	\begin{tabularx}{150mm}{@{}l X}
+		Autoren 		& \theauthor \\
+		Version 		& Endgültige\\
+		Letzte Änderung	& \today\\
+		Letzte Änderungdurch& u212740\\
+		Urheberrecht 	& Dieses Dokument ist urheberrechtlich geschützt. Jegliche kommerzielle Nutzung bedarf einer vorgängigen, ausdrücklichen Genehmigung.\\
+	\end{tabularx}
+	}
+	\vfill 
+	\parbox{100mm}{\small
+	\textbf{SBB AG}\\
+	Infrastruktur \\ 
+	I-AT-IU-UMW-LR\\
+	Mittelstrasse 43 3000 Bern, Schweiz\\
+	enzo.scossa-romano@sbb.ch}
+\end{titlepage}
+% % % % % % % % %
+\restoregeometry
+\cleardoubleemptypage
+\pagestyle{empty}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
+\tableofcontents
+\subsubsection*{Wichtigsten Abkürzungen}
+\begin{tabularx}{\textwidth}{@{}l X}
+\multicolumn{2}{@{}l}{\textbf{Oberbau  Abkürzungen}} \\
+TDR & Track Decay Rate \\
+B.h		&  Betonschwellen harte Zwischenlagen Variante mit hoher TDR \\
+B.h.tv	&  Betonschwellen harte Zwischenlagen Variante mit tiefer TDR \\  
+B.h.SIV	& Wie B.h aber mit Schiene IV  \\
+B.w		&  Betonschwellen weiche Zwischenlagen   \\
+B.w.tv	&  Betonschwellen extra-weiche Zwischenlagen\\
+H.h		&  Holzschwellen harte Zwischenlagen schiene IV   \\
+H.k 		&  Holzschwellen keine Zwischenlagen schiene IV  \\
+H.h.SVI 	&  Holzschwellen harte Zwischenlagen schiene VI \\
+S.h &  Stahlschwellen harte Zwischenlagen schiene IV \\
+\\[10pt]
+\multicolumn{2}{@{}l}{\textbf{Sonstige  Abkürzungen}} \\
+AEA		&  Anzahl eingebaute Abschnitte\\ 
+DR		&  Decay Rate	  \\
+IGW		&  Immissionsgrenzwert	  \\
+MBBM	&  Müller BBM\\
+\end{tabularx}
+\cleardoubleemptypage
+% % % % % % % % % % % % % % % % % % % % % % % % % % %
+\setcounter{page}{1}
+\pagestyle{scrheadings}
+\rohead{\pagemark}
+\lehead{\pagemark}
+\lefoot{\footnotesize SBB AG} 
+\rofoot{\footnotesize \theauthor}
+\section*{Zusammenfassung}\addcontentsline{toc}{section}{Zusammenfassung}%
+Mit Angaben über Grenzwertüberschreitungen aus dem Akustikprojektierungstool der SBB (APT) und der Datenbank über feste Anlagen (DfA) konnte die Wahrscheinlichkeit berechnet werden, dass an konkreten Orten Schienendämpfer eingebaut werden. Es wurden dabei drei Varianten untersucht: 1) Der heutige Zustand wird beibehalten ohne Optimierungen am Oberbau. 2) Ein unbekannter Faktor X, welcher in gewissen Fällen zu tieferen Abklingraten (Track Decay Rates, TDR) im Oberbau führt, wird gefunden und geändert. 3) aus infrastrukturseitigen Gründen werden vermehrt weiche Zwischenlagen eingebaut. Für jeden Fall wurden Szenarien mit unterschiedlichen minimal erlaubten Wirkungen berechnet und ein Kosten-Nutzen Einschränkung eingeführt. Wird eine minimale Dämpferwirkung von 2 dB vorausgesetzt, dann würden auf einer Streckenlänge 35 km eingebaut bei Investitionskosten von CHF 33 Millionen. Dadurch würden rund 10'000 zusätzliche Personen unter den Grenzwert gelangen. Wird der Faktor X erkannt und geändert, so sind bei gleichem Nutzen nur noch rund 15 km notwendig bei Kosten von CHF 14 Millionen (und unbekannten Kosten für den Faktor X). Insgesamt würden auch mit dieser Kombination rund 10'000 Personen unter den Grenzwert gelangen. Zu beachten ist, dass diese Resultate den Lärmminderungseffekt der Einführung des Verbotes von Grauguss-Sohlen ab 2020 nicht berücksichtigt. Einbaustandorte befinden sich im ganzen Netz, Konzentration bestehen jedoch in der Agglomeration Zürich, am Lac Léman, entlang der Jurasüdfusslinie und der Gotthardstrecke. 
+
+\section{Einleitung}
+Ein Ziel des Projektes \emph{Erprobung von Schienendämpfern} sind einerseits die netzweiten Kosten und Nutzen zu bestimmen. Hierzu wurden in einem sogenannten Parkplatztest die Abklingraten (Decay Rates, DR) von weich gelagerten Schienen mit Schienendämpfern gemessen. Danach wurden an 18 Standorten mit unterschiedlichen Oberbautypen die Abklingraten (Track Decay Rates, TDR) gemessen, aber ohne eingebaute Schienendämpfer. Mit Hilfe des STARDAMP-Tools konnte damit die Wirksamkeit von Schienendämpfer berechnet werden. Für die meisten Oberbautypen war die Wirkung eher bescheiden und lag zwischen 0.7 und 1.5 dB. Nur im Fall von Oberbauten mit weichen Zwischenlagen und einem noch unbekannten Faktor X konnten Wirkungen grösser als 2 dB erzielt werden\footcite{sbbWCalc}. Die Wirksamkeit hängt stark von den Schwingungseigenschaften des Gleises ab, welche bisher immer mit der TDR beschrieben wurde. \\
+
+Aufgrund der ungenügenden Kenntnisse über das netzweite Schwingungsverhalten des Gleises, ist es nicht möglich eine netzweite Analyse des Dämpfereinbaus  mit einer befriedigenden Genauigkeit zu generieren. Es muss deshalb eine Lösung gesucht werden, wonach dies ohne Kenntnisse der Schwingungseigenschaften einzelner Abschnitte möglich ist. Hierzu wird ein statistisches Vorgehen gewählt, welches die Grössenordnungen des netzweiten Dämpfereinbaus abschätzt. Dabei werden die nur bedingt bekannten Schwingungseigenschaften des Gleises mit Wahrscheinlichkeitsansätzen vervollständigt. Die Hochrechnungsalgorithmen können dabei mit verschiedenen Parametern kontrolliert werden, damit unterschiedliche Szenarien berechnet werden können.
+
+\subsection{Verfahren zur Abschätzung des Dämpfereinbaus}
+ Die Grossenordnung des netzweiten Dämpfereinbaus ist Gegenstand dieser Untersuchung. Die Grundidee der Abschätzung ist im folgenden Abschnitt dargestellt. Die Ergebnisse sind im  Abschnitt \ref{S:erg} aufgeführt. Das detaillierte Verfahren ist schliesslich im Abschnitt \ref{SS:det} erklärt. Die Hochrechnungsalgorithmen und Auswertungen wurden mit dem Software\footcite{R} R  implementiert.
+\begin{itemize}
+	\item Das gesamte Netz wird in 100 m Abschnitte eingeteilt. Die Anzahl betroffene Personen  (Personen mit IGW Überschreitungen) und einige Oberbauinformationen (Schwellentyp) sind für jeden Abschnitte bekannt.
+	\item Für alle Abschnitte  wird die  Wahrscheinlichkeit angegeben, einer bestimmte TDR Klasse anzugehören\footnote{Im 2012 wurde eine TDR Messkampagne auf den Schweizer Bahnnetz durchgeführt. Damit wurden charakteristische TDR-Klassen definiert.\\ Mehr im Bericht: \cite{MbbmNetzM}. } zu sein angegeben. Diese Wahrscheinlichkeit ist von den  Oberbauinformationen und  einigen anderen Parametern, welche die Annahmen kontrollieren, abhängig. 
+	\item  Die  Dämpferwirkung ist für jede TDR Klasse aus früheren Berechnungen \footnote{ Für unterschiedlichen  TDR Klassen, Verkehrssituationen und Schienendämpfern wurden charakterisierende Wirkungsintervalle mit den STARDAMP-Tool berechnet \parencite{sbbWCalc}. \\ Mehr Information über STARDAMP und dem daraus entwickelten Tool sind im STARDAMP Schlussbericht zu sehen:  \cite{stardRep}.} bekannt. Genauer handelt es sich um eine Wahrscheinlichkeitsdichte. Damit kann für jeden Abschnitt die Wahrscheinlichkeitsdichte der Dämpferwirkung berechnet werden. Die Wirkung hängt von den Annahmen ab, welche der Berechnung zugrunde liegen. 
+	\item Es wird die Wahrscheinlichkeit berechnet, dass die Dämpfer eine genügende Wirkung aufweisen. Dabei werden Kosten-Nutzen Einschränkungen sowie eine minimale Wirkungsschwelle berücksichtigt. Diese Grösse beinhaltet gleichzeitig die Wahrscheinlichkeit, dass bei einem konkreten Abschnitt Dämpfer eingebaut werden könnten. Die Berechnung setzt deshalb die Angabe einer Kosten-Nutzen Grenze und einer minimalen Wirkungsschwelle der Dämpfer voraus. 
+	\item Die Kosten und die Anzahl geschützte Personen werden für jeden Abschnitt berechnet.
+	\item Als letzte Schritt werden alle Abschnitte zusammengerechnet. Als Endresultat bekommt man eine Wahrscheinlichkeit für die Anzahl eingebauter Kilometer und für die Investitionskosten.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%
+\section{Ergebnisse} \label{S:erg}
+
+In diesem Abschnitt werden die Resultate der Abschätzung, d.h. die Anzahl eingebaute Kilometer Schienendämpfer und die daraus resultierenden Investitionskosten dargestellt.
+Die Ergebnisse basieren auf einigen Annahmen, welche untenstehend aufgeführt sind: 
+\subsection{Annahmen}\label{S:annh}
+Die  Annahmen  bestimmen den Zusammenhang zwischen Schwellentyp, TDR und Wirkung im Fall von Betonschwellen. Für Holz- und Stahlschwellen ist der Zusammenhang weniger problematisch und von kleiner Bedeutung. Wie schon diskutiert, hängt die Wirkung eines Dämpfers für einen Abschnitt stark (aber nicht nur) vom Gleiszustand (Schwingungsverhalten, TDR Klasse) ab. Da dieser Zusammenhang, aufgrund von fehlenden Kenntnissen (Faktor X) und oder fehlenden Gleisinformationen (Zwischenlage, genaue Schwellentyp), teils unbekannt bleiben, müssen Annahmen getroffen werden, so dass eine Zuordnung zwischen Abschnitt und Wirkung entsteht. In diesem Bericht unterscheiden wir drei Varianten unterschiedlichen Annahmen. Im Abschnitt \ref{S:Zuordnung} sind weitere Details dargestellt. 
+
+\begin{description}
+\item[Variante 1] (V1) \\
+	Die erste Variante versucht den heutige Zustand möglichst genau darzustellen. Erstens wird angenommen, dass mit Betonschwellen ausschliesslich  steife Zwischenlagen eingebaut sind. Zweitens, dass bei B70 Schwellen mehrheitlich die tiefe und bei B91 eher die hohe TDR Variante vorkommt. Diese Annahmen basieren auf den empirischen Ergebnissen der Messungen.\\
+	\begin{itemize}
+	\item 	Zwischenlagen beim  Betonschwellen: $95\%$ hart $5\%$ weich.
+	\item Faktor X\\
+		\begin{tabular}[h]{rcc}
+		  B70 & 80\% tiefe TDR & 20\% hohe  TDR,\\
+		  B91 & 10\% tiefe TDR & 90\% hohe TDR
+		\end{tabular}
+	\end{itemize}
+	Die daraus resultierenden Wirkungen für die zugehörigen Schwellenklassen sind in Abbildung \ref{F:distVar1} dargestellt. Zu beachten ist, dass die Wirkung einer TDR Klasse nach wie vor als Zufallsvariable dargestellt wird, da die genaue TDR  unbekannt ist. Mit dieser Darstellungsart kann auch die Variabilität aufgrund der unterschiedlichen Fahrzeugen mitberücksichtigt werden.
+
+\item[Variante 2 ] (V2)\\
+	Diese Variante basiert auf der Annahme, dass der Faktor X entdeckt wird. Als Folge würde man das Gleis so umbauen, dass bei harten Zwischenlagen keine tiefen TDR mehr vorkommen würden. \\ 
+	\begin{itemize}
+	\item 	Zwischenlagen beim  Betonschwellen: $95\%$ hart $5\%$ weich.
+	\item Faktor X\\
+		\begin{tabular}[h]{rcc}
+			B70& 5\% tiefe TDR & 95\% hohe  TDR,\\
+			B91 & 5\% tiefe TDR & 95\% hohe TDR
+		\end{tabular}
+	\end{itemize}
+	Die daraus resultierenden Wirkungen für die zugehörigen Schwellenklassen sind in Abbildung \ref{F:distVar2} 
+	\item[Variante 3 ] (V3)\\
+	Diese Variante berücksichtigt den heutigen Trend, welcher einen Umbau auf weiche Zwischenlagen darstellt. Für diese Variante nahmen wir einen Anteil von weichen Schienenzwischenlagen von $40\%$ an. Die daraus resultierenden Wirkungen für die zugehörigen Schwellenklassen sind in Abbildung \ref{F:distVar3} aufgeführt.
+	Es ist zu bemerken, dass der Umbau ein Zuwachs der Lärmemissionen (um die \SIrange{2}{3}{\decibel}) verursachen würde. Für eine korrekte Abschätzung müsste die Information über die von Lärm betroffenen Personen anpassen. Weil dies in der Abschätzung nicht gemacht wurde, wird die Anzahl Kilometer mit eingebauten Schienendämpfer eher unterschätzt. 
+\end{description}
+
+Die weiteren Parameter für die Abschätzung wurden für alle drei Varianten gleich gewählt: 
+\begin{center}
+	\begin{tabular}[h]{l s[table-unit-alignment = left] S[table-format=8]@{\,} }\toprule
+	\textbf{Parameter}& \multicolumn{2}{c}{\textbf{Wert}}\\ \midrule
+	KNI & & 100  \\
+	Jahreskosten pro Abschnitt\footnotemark & \CHF &  5000 \\
+	Investitionskosten &\CHF & 45000 \\
+	Kriterium minimaler Effekt& &\SIlist{2;3}{\decibel}  \\ \bottomrule
+	\end{tabular}
+\end{center}
+\footnotetext{Berechnungsbasis: Kosten pro m Einspur für 15 Jahre: Investition Basis Bümpliz CHF 408, Instandhaltung ($3\%$ der Investition pro Jahr für 15 Jahre): CHF 183.5; Erschwernis andere Arbeiten: CHF 25; Ausbau CHF 100; Entsorgung CHF 0; Fixkosten System CHF 25; Total: CHF 741.5; Jahrekosten (Total durch 15, gerundet) CHF 50)}
+
+Die Berechnung wird für zwei unterschiedliche minimale Effekte von Dämpfern ausgeführt: 2 und 3 dB. Wirkungen unter 2 dB sind für die Anwohner nicht wahrnehmbar, weshalb es nicht sinnvoll ist an solchen Orten Dämpfer einzubauen. 
+\begin{figure}[!h]
+\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.6\textwidth]{R_exports/unnamed-chunk-2-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.7\textwidth}
+	\caption{ Wahrscheinlichkeitsdichte der Wirkung (\si{\decibel}) für unterschiedliche Schwellentypen für die Variante 1.}
+	\label{F:distVar1}
+\end{figure}
+\begin{figure}[!h]
+\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.6\textwidth]{R_exports/unnamed-chunk-3-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.7\textwidth}
+	\caption{Wahrscheinlichkeitsdichte der Wirkung (\si{\decibel}) für unterschiedliche Schwellentypen für die Variante 2.}
+	\label{F:distVar2}
+\end{figure}
+\begin{figure}[!h]
+\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.6\textwidth]{R_exports/unnamed-chunk-4-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.7\textwidth}
+	\caption{Wahrscheinlichkeitsdichte der Wirkung (\si{\decibel}) für unterschiedliche Schwellentypen für die Variante 3.}
+	\label{F:distVar3}
+\end{figure}
+
+\FloatBarrier
+\subsection{Eingebaute Kilometer}
+Das Hauptergebnis der Abschätzung ist die Streckenlänge, bei der Schienendämpfer eingebaut werden. Diese Grösse wird als Wahrscheinlichkeitsdichte berechnet. Das Resultat ist in Abbildung \ref{F:pAEA} dargestellt. Diese Abbildung zeigt: 
+\begin{itemize}
+\item Im heutigen Zustand (V1) sagt die Abschätzung einen Einbau in der Grossenordnung \SI{22 \pm 3}{\km} und \SI{6 \pm 2}{\km} für die entsprechende minimalen Effekte (\SIlist{2;3}{\decibel}).
+\item voraus. Der ausgewählte minimale Effekt beeinflusst in allen Varianten das Resultat stark. 
+
+\item Wie erwartet hat die Variante 2 eine kleineren Anzahl eingebaute Kilometer als die Variante 1. 
+Die Variante 3 hat hingegen die grösste Anzahl an eingebauten Kilometern.
+\end{itemize}
+
+\begin{figure*}[!htb]
+	\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.9\textwidth]{R_exports/unnamed-chunk-5-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{Wahrscheinlichkeitsdichte der Anzahl eingebauter Kilometer. Die unterschiedlichen Varianten sind in der vertikalen Richtung abgebildet. Die verschiedenen Farben stellen die Abschätzung für die unterschiedlichen minimalen Effekte dar.}
+	\label{F:pAEA}
+\end{figure*}
+Die Abbildung \ref{F:pAEA} stellt die zusammenfassende Tabelle \ref{T:zAEA} aller auf dem gesamten Netz eingebauten Kilometer dar (Mittelwerte).\\
+
+Die genauen Standorte, wo Dämpfer eingebaut werden, können mit den statistischen Abschätzungsverfahren nicht genau bestimmt werden. Es bestehen jedoch zwei Möglichkeiten, die Standorte genauer zu lokalisieren: \\
+Erstens kann die Anzahl eingebauter Kilometer nach Linien berechnet werden. Die Resultate sind in Abbildung \ref{F:pAEAL} dargestellt.\\ 
+\begin{table}[!htb]
+	\begin{center}
+	\input{R_exports/TZAEA.tex}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{Erwartete Anzahl eingebauter Kilometer Schienendämpfer(mit $99\%$ Quantile).}
+	\label{T:zAEA}
+\end{center}
+\end{table}
+
+\begin{figure*}[!htb]
+	\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.9\textwidth]{R_exports/unnamed-chunk-6-1} 
+
+\end{knitrout}
+		\setcapwidth[c]{0.9\textwidth}
+	\caption{Erwartete Anzahl eingebauter Kilometer Schienendämpfer nach Linien aufgeteilt mit $95\%$ Quantile. Nur die Linien mit ausreichend eingebauter Kilometern sind aufgelistet.}
+	\label{F:pAEAL}
+\end{figure*}
+
+Zweitens kann die Einbauwahrscheinlichkeit der Abschnitte auf einer Karte visualisiert werden. Die Einbauwahrscheinlichkeit ist eine Zahl zwischen 0 und 1, welche für jeden Abschnitt berechnet wird. Ein Zahl in der Nähe von 1 bedeutet, dass für diesen Abschnitt die Voraussetzungen für einen Einbau vorhanden sind. In Abbildung \ref{F:kartepE} ist diese Karte aufgeführt.
+\begin{sidewaysfigure}[!htb]
+	\includegraphics[width=\textwidth]{KartenPdf/Einbauwahrscheinlichkeit_V1_pE2.pdf}
+	\setcapwidth[c]{\textwidth}
+	\caption{Lokalisierung auf den Schweizer Netz der Einbau Wahrscheinlichkeit. Variante 1 minimales Effekt \SI{2}{\decibel} .}
+	\label{F:kartepE}
+\end{sidewaysfigure}
+
+\FloatBarrier
+\subsection{Investitionskosten}
+Die Wahrscheinlichkeitsdichte der Investitionskosten wird in Abbildung \ref{F:pGK} gezeigt. Diese Dichten verhalten sich ähnlich zu den Wahrscheinlichkeitsdichten der eingebauten Kilometer. Dieses Verhalten ist jedoch nicht genau gleich, weil bei der Kostenabschätzung die Anzahl Gleise in die Berechnung einfliesst. In anderen Worten sind die Gesamtkosten und die Gesamtkilometern nicht proportional zu einander, da für verschiedene Abschnitte unterschiedliche Proportionalitäten vorkommen.\\
+\begin{figure*}[!htb]
+	\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.9\textwidth]{R_exports/unnamed-chunk-7-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{Wahrscheinlichkeitsdichte der Gesamtkosten. Die unterschiedlichen Varianten sind in der vertikalen Richtung abgebildet. Die verschiedenen Farben stellen die Abschätzung für die unterschiedlichen minimalen Effekte dar.}
+	\label{F:pGK}
+\end{figure*}
+
+Aus Abbildung \ref{F:pGK} kann man die Investitionskosten (Tabelle\ref{T:zGK}) für die verschiedenen Varianten und minimalen Effekte ablesen.
+\begin{table}[!htb]
+	\begin{center}
+	\input{R_exports/TZGK.tex}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{ Erwartete Gesamtinvestitionskosten in Millionen (\si{\CHF}) für die unterschiedlichen Varianten und minimalen Effekte(mit $99\%$ Quantile). }
+	\label{T:zGK}
+\end{center}
+\end{table}
+\FloatBarrier
+
+\subsection{Anzahl Profitierende Personen}
+Ein weiteres Mass, um den Einbau von Dämpfern zu bewerten, ist die Anzahl profitierender Personen (Personen, die dank der Massnahme neu unter den Immissionsgrenzwert (IGW) gelangen). Die Personenstatistik, welche aus dem APT exportiert wurde betrifft insgesamt \num[fixed-exponent = 0]{786000} Personen davon \num[fixed-exponent = 0]{97000}  mit IGW-Überschreitungen.\\
+Den Erwartungswert für den Anzahl profitierender Personen ist in der Tabelle \ref{T:zAPP} zu sehen.
+\begin{table}[!htb]
+	\begin{center}
+	\input{R_exports/TAPP.tex}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{Anzahl Profitierende Personen (Erwartungswert für das gesamte Netz) als Prozent der Anzahl Personen mit IGW-Überschreitungen. }
+	\label{T:zAPP}
+	\end{center}
+\end{table}
+\subsection{Effekte aufgrund von Wirkungsänderung der Dämpfer}
+Um einen Eindruck zu erhalten, wie sich die erwartete Anzahl eingebauter Kilometer ändert, wenn die Wirkung der Dämpfer verbessert (z.B. durch technische Innovation) oder verschlechtert (z.B. Wahl eines schlechteren Produktes) wird, wurden zwei Simulationen durchgeführt. \\
+
+Wird die Wirksamkeit der Dämpfer um 0.5 dB verbessert, so steigt die erwartete Dämpfereinbaulänge (im Fall 2 dB minimales Effekt) von 35 auf 55 Kilometer.  Wird hingegen die Wirkung um 0.5 dB verschlechtert, so sinkt die erwartete Einbaulänge auf 22 km. Die erwartete Einbaulänge reagiert also sehr sensibel auf die Qualität der Schienendämpfer.
+
+\subsection{Fazit}
+In der Tabelle \ref{T:zV1} sind die erwarteten Werte der Hochrechnung für die Variante 1, welche den heutigen Zustand darstellt, aufgeführt. 
+\begin{table}[!htb]
+	\begin{center}
+	\input{R_exports/TZV1.tex}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{Zusammenfassende Werte (Erwartete Kosten und Kilometer Schienendämpfer) für die Variante 1 (Heutiger Zustand)}
+	\label{T:zV1}
+	\end{center}
+\end{table}
+
+\clearpage
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\section{Berechnungsdetails}\label{SS:det}
+\subsection{Abschnittsinformationen}
+Die notwendige Informationen über die Lärmemissionen und über die Anzahl betroffener Personen wurde aus den beiden GIS-Systemen Akustikprogrammierungstool (APT) und der Datenbank für feste Anlagen (DfA) geholt. Aus einer APT-Abfrage wurde eine Tabelle über die betroffenen Personen generiert. Diese Tabelle enthielt für jeden 100 m Abschnitt die Anzahl Personen mit IGW Überschreitungen. Diese Anzahl wurde anschliessend in 1 dB Intervallen über dem IGW (vgl. Tabelle \ref{T:bP}) aufgeteilt. Die betroffenen Bevölkerung haben wir mit der Variable $bP$ bezeichnet. $bP$ ist ein Tupel mit 11 Elementen, d.h. $bP =(bP_i)_{i=1,...11}$ wobei $bP_i$ die Anzahl Personen darstellt, welche sich zwischen $k_{i}$ und $k_{i+1}$ dB über den IGW befinden, wobei $k$ den 12-Tupel $(0,1,...,9,10,\infty)$ bezeichnet.\\
+
+Zusätzliche Informationen über den Typ von Schwellen sind aus der DfA bekannt. Zu jedem Abschnitt wird ein Schwellentyp ($ SchwT \in \{ B70,\, B91, \,Be, \,H, \, S,\,unb \} $) zugeordnet. Die Bezeichnungen bedeuten: $B70$ und $B91$ sind die übliche Betonschwellen, $Be$ wird verwendet im Fall von Betonschwellen deren genauer Typ nicht bekannt ist oder aus einer Mischung von Typen besteht, $H$ steht für Holz- $S$ für Stahlschwellen und $unb$ für unbekannte Schwellentypen (fehlende Information oder exotische Schwellentypen).
+Die Anzahl Gleise $NG$  ist ebenfalls eine Information, welche in der Tabelle enthalten ist.\\
+
+
+Um eine Idee der Verteilung der Schwellentypen zu erhalten, wurde eine Karte des Schweizer Netzes erstellt(Abbildung \ref{F:SchwTyp}), auf der die verschiedenen Typen dargestellt sind. Diese Karte dient auch der Plausibilisierung der Schwellendaten. 
+\begin{sidewaysfigure}[!htb]
+	\includegraphics[width=\textwidth]{KartenPdf/Schwellentypen.pdf}
+	\setcapwidth[c]{\textwidth}
+	\caption{Lokalisierung auf den Schweizer Netz der Schwellen Typen.}
+	\label{F:SchwTyp}
+\end{sidewaysfigure}
+
+\begin{table}[!htb]
+\begin{center}
+	\resizebox{\columnwidth}{!}{
+	\input{R_exports/TAPT.tex}
+	}
+	\caption{Ausschnitt aus der Tabelle mit den Abschnittsinformationen. Die Linie mit Nummer 290  entspricht Bern Wylerfeld - Thun.}
+	\label{T:bP}
+\end{center}
+\end{table}
+\FloatBarrier
+% % % % % % % % % % % % % %
+\subsection{Zuordnung Oberbau TDR Klasse}\label{S:Zuordnung}
+Die Zuordnung zwischen dem Oberbau eines Abschnitt und der zugehörigen TDR Klasse wird durch die  Zufallsvariable $TDR_{ob}$ definiert. Für diese Operation ist deshalb eine Zufallsvariable notwendig, weil der unbekannte Faktor X und die fehlende Informationen der Oberbauparametern (der einzige bekannte Oberbau Parameter ist den Schwellentyp $SchwT$) keine eindeutige Zuordnung zulassen. Bei einer Zufallsvariable wird hingegen von der Wahrscheinlichkeit gesprochen, dass eine bestimmte TDR Klasse vorkommt. Diese Wahrscheinlichkeit basiert wiederum auf einer statistischen Grundlage. Es ist zu bemerken, dass eine eindeutige Zuordnung zwischen Oberbauparametern und TDR Klasse, ein vollständiges physikalisches Verständnis der Zusammenhänge voraussetzen, welches zurzeit noch fehlt.  \\
+
+Die mögliche Werte, welche die Zufallsvariable $TDR_{ob}$ annehmen kann sind durch die TDR Klassen gegeben:
+\begin{equation*}
+	TDR_{ob} \;\in\; \{B.h,\,B.h.tv,\,B.w,\,B.w.tv,\, H, \,S \}\,.
+\end{equation*}
+Zum Beispiel können $B70$ Schwellen den TDR Typ $B.h$ oder $B.h.tv$ annehmen. Die TDR Klassen wurden durch die TDR Netzmessungen (Sommer 2012, MBBM) erkennt und bestimmt.\\
+
+Die Wahrscheinlichkeiten
+\footnote{Zur Notation:
+\begin{itemize}
+\item $P(TDR_{ob}=B.h)$ ist die Wahrscheinlichkeit, dass die Zufallsvariable $TDR_{ob}$ sich in $B.h$ realisiert.
+\item $P_{TDR_{ob}}= \left(P(TDR_{ob}=B.h),\,P(TDR_{ob}=B.h.tv),\dots,\,P(TDR_{ob}=S)\right)$ ist der sechsdimensionale Vektor, welcher die Wahrscheinlichkeit der Zufallsvariable $TDR_{ob}$ beschreibt. Es gilt dabei, dass die Summe der Elemente von $P_{TDR_{ob}}$ gleich 1 ist.
+\end{itemize}}
+welche die Zuordnung zwischen TDR Klasse und Schwellentyp bestimmen muss festgelegt werden und werden wir jetzt besprechen(die nicht diskutierten Wahrscheinlichkeiten sind gleich null):
+\begin{itemize}
+\item Schwellentyp $B70$; Wird nur mit harten Zwischenlagen verwendet, dann ist
+\begin{equation*}
+	P(TDR_{B70}=B.h)= p_{B70,B.h}\qquad P(TDR_{B70}=B.h.tv)=1- p_{B70,B.h}\,.
+\end{equation*}
+Damit ist $P_{TDR_{B70}}=(p_{B70,B.h},\,1- p_{B70,B.h},\,0,\,0,\,0,\,0)$ wobei $p_{B70,B.h}$ die Wahrscheinlichkeit, dass ein Gleis mit $B70$ Schwellen die $B.h$ TDR hat, ist. Dann ist $1- p_{B70,B.h}$ die Wahrscheinlichkeit die  $B.h.tv$ TDR (tiefe Variante, Faktor X) zu erhalten. Da wir beobachteten, dass bei Schwellen $B70$ die tiefe TDR Variante öfters vorkommt (80\%, noch nicht erklärt) ist 0.2 ein typischer Wert für $p_{B70,B.h}$.
+
+\item Schwellentyp $B91$: Dieser Schwellentyp wird mit harten und weichen Zwischenlagen verwendet. Der Anteil harter Zwischenlagen liegt jedoch schätzungsweise über den $95\%$. $p_{B91,h}$ ist deshalb die Wahrscheinlichkeit harte Zwischenlagen zu haben und liegt bei einen Wert von 0.95. Mit $p_{B91,B.h}$ bezeichnen wir die Wahrscheinlichkeit, dass $B91$ Schwellen mit harten Zwischenlagen die $B.h$ TDR haben. Da wir beobachteten dass bei Schwellen $B91$ die hohe TDR Variante öfters vorkommt, ist ein typisches Wert für $p_{B91,B.h}$ gleich 0.9. Somit sind die Wahrscheinlichkeiten
+\begin{align*}
+	P(TDR_{B91}=B.h)=& p_{B91,h}\cdot p_{B91,B.h} \\
+	 P(TDR_{B91}=B.h.tv)=& p_{B91,h}\cdot(1-p_{B91,B.h})\,.
+\end{align*}
+Im Fall von weichen Zwischenlagen wird angenommen, dass beide TDR Klassen gleich oft vorkommen. Diese Festlegung spielt keine grosse Rolle, da $1-p_{B91,h}$ klein ist. Dann sind die Wahrscheinlichkeiten
+\begin{align*}
+	 P(TDR_{B91}=B.w)= & (1-p_{B91,h})\cdot 0.5  \\
+	 P(TDR_{B91}=B.w.tv)=& (1-p_{B91,h})\cdot 0.5 \,.
+\end{align*}
+\item Schwellentyp $Be$; Der genaue Schwellentyp ist unbekannt, wir wissen nur, dass es sich um Betonschwelle handelt. Es wird angenommen, dass es sich mit gleich viel Wahrscheinlichkeit um $B70$ oder um $B91$ Schwelle handeln könnte.
+\begin{equation*}
+	P_{TDR_{Be}}= 0.5\cdot P_{TDR_{B70}} + 0.5\cdot P_{TDR_{B91}}
+\end{equation*}
+\item Schwellentyp $H$; Den Holzschwellen wird eine eindeutige TDR Klasse zugeordnet.
+\begin{equation*}
+	P(TDR_{H}=H)= 1
+\end{equation*}
+\item Schwellentyp $S$; Den Stahlschwellen wird eine eindeutige TDR Klasse zugeordnet.
+\begin{equation*}
+	P(TDR_{S}=S)=1
+\end{equation*}
+\item Schwellentyp $unb$;Für den Fall der unbekannte Schwellentypen wird angenommen, dass es mit 0.7 Wahrscheinlichkeit um $Be$  und mit 0.15 Wahrscheinlichkeit um  $H$ oder $S$ Schwellen handeln könnte. Die Wahrscheinlichkeit von $TDR_{unb}$ lässt sich dann aus den Wahrscheinlichkeiten $P_{TDR_{Be}}$ ,  $P_{TDR_{H}}$ und  $P_{TDR_{S}}$ berechnen
+\begin{equation*}
+	P_{TDR_{unb}}= 0.7\cdot P_{TDR_{Be}} + 0.15\cdot P_{TDR_{S}} + 0.15\cdot P_{TDR_{H}}
+\end{equation*}
+\end{itemize}
+Damit sind die Wahrscheinlichkeiten für alle Schwellentypen und deren TDR Klassen bestimmt. Die Parameter $p_{B70,B.h}$, $p_{B91,h}$ und $ p_{B91,B.h}$ müssen vor jeder Rechnung definiert werden. In Kapitel \ref{S:annh} wurde dies für drei Varianten vorgenommen. In Abbildung \ref{F:pTree} ist eine zusammenfassende grafische Darstellung der zuordnung der TDR Klassen dargestellt. 
+\begin{figure*}[!htb]
+	\centering
+	\resizebox{10cm}{!}{
+	\begin{tikzpicture}
+	\tikzset{grow'=right}
+	\tikzset{every tree node/.style={anchor=base west,font=\Large}}
+	\tikzset{every leaf node/.style={anchor=base west,draw,font=\bf\large}}
+	\tikzset{execute at begin node=\strut}
+	\tikzset{level 1/.style={level distance=3cm,sibling distance=1cm}}
+	\tikzset{level 2/.style={level distance=3cm,sibling distance=1cm}}
+	\tikzset{level 3/.style={level distance=3 cm, sibling distance=1cm}}
+	\tikzset{level 4/.style={level distance=4 cm, sibling distance=1cm}}
+	\Tree 
+	[.\node(Root){Unb};
+		\edge[] node [fill= white]{\small 0.7};
+		[.\node(lev2){Be}; 
+			\edge[] node [fill= white]{\small $0.5$};
+			[.B70 
+				\edge[] node [fill= white]{\small 1};
+				[.\node(zw){h}; 
+				\edge[] node [fill= white]{\small ${\color{red} p_{B70,B.h}}=0.2$};\node(endup){B.h}; 
+				\edge[] node [fill= white]{\small $1-p_{B70,B.h}=0.8$}; B.h.tv 
+				] 
+			]
+			\edge[] node [fill= white]{\small $0.5$};
+			[.B91
+				\edge[] node [fill= white]{\small ${\color{red} p_{B91,h}}=0.95$};
+				[.h 
+				\edge[] node [fill= white]{\small ${\color{red} p_{B91,B.h}}=0.9$};B.h 
+				\edge[] node [fill= white]{\small $1-p_{B91,B.h}=0.1$}; B.h.tv 
+				]
+				\edge[] node [fill= white]{\small $1-p_{B91,h}=0.05$};
+				[.w 
+				\edge[] node [fill= white]{\small 0.5}; B.w 
+				\edge[] node [fill= white]{\small 0.5}; B.w.tv 
+				]
+			] 
+		]
+	%
+		\edge[draw=none] ;
+		[\edge[draw=none] ;
+			[.\node(2){H};
+			\edge[] node [fill= white]{\small 1};
+				[.h \edge[] node [fill= white]{\small 1};  H ] 
+			]
+		]
+		\edge[draw=none];
+		[\edge[draw=none] ;
+			[.\node(3){S};
+				\edge[] node [fill= white]{\small 1};
+				[.h \edge[] node [fill= white]{\small 1}; S ] 
+			]
+		]
+	]
+	
+	\draw (Root.east) -- (2.west) node[midway,fill= white] {\small $0.15$};
+	\draw (Root.east) -- (3.west) node[midway,fill= white] {\small $0.15$};
+	\path (lev2    |- endup) ++(0,0)  node[] {.} ++(0,1)  node[] {\bf \Large Schwelle};
+	\path (zw    |- endup) ++(0,1)  node[] {\bf \Large Zw};
+	\path (endup    |- endup) ++(5mm,1)  node[] {\bf \Large TDR Kl.};
+	\draw [decorate, decoration={brace, amplitude=10pt,raise=8pt},yshift=0pt](Root  |- endup) ++(-10mm,0) -- ++ (75mm,0)(2  |- endup);
+	\end{tikzpicture}
+	}
+	\setcapwidth[c]{0.9\textwidth}
+	\caption{ Wahrscheinlichkeitsbaum der Zuordnung Oberbau TDR für den Fall unbekannte Schwellen. Daraus lassen sich auch die Zuordnung der andere Schwellen herleiten. Die roten Parameter sind vor einer Berechnung auszuwählen. Die in dieser Abbildung ausgewählten Zahlen stammen aus der Variante 1.}
+	\label{F:pTree}
+\end{figure*}
+
+% % % % % % % % % % % %
+\subsection{Wirkung der Dämpfer für jeden einen Abschnitt}
+Die Dämpferwirkung $W$ eines Abschnitts hängt vom Gleiszustand bzw. den Oberbauparametern, der Verkehrssituation und anderen Faktoren ab. Die genaue Abhängigkeit zwischen der Wirkung und den Faktoren ist zu wenig bekannt. Zusätzlich sind Faktoren wie die Oberbauparameter oder die TDR unbekannt. Somit wird die Wirkung am Besten mit einer Zufallsvariable modelliert. Die  Wahrscheinlichkeitsdichte von $W$ ist die zentrale Grösse für die weiteren Berechnungen. In diesem Teil wird die Wirkung jedes Abschnitts modelliert und berechnet.\\
+
+Die  Wahrscheinlichkeitsdichte von $W$ falls die TDR Klasse bekannt ist (bedingte Wahrscheinlichkeit auf die TDR Klasse), modellieren wir mit einer normalverteilten Zufallsvariable
+\begin{equation}\label{E:bVW}
+	p_{W|TDR_{ob}}(w|TDR_{ob}=tdr)=\frac{1}{\sqrt{2\pi\sigma_{tdr}^2}} \exp^{\frac{1}{2}\left(\frac{w-avW_{tdr}}{\sigma_{tdr}}\right)^2}
+\end{equation}
+wobei die Werte $avW_{tdr}$ (durchschnittliche Wirkung einer bestimmte TDR Klasse) und $\sigma_{tdr}$ (Standardabweichung) in der Tabelle \ref{T:avsd} zu sehen sind. Die Wahrscheinlichkeitsdichte im Gleichung \ref{E:bVW} enthält die Unsicherheit der Wirkung aufgrund von TDR Unsicherheiten innerhalb der jeweilige TDR Klasse und unterschiedlichen Verkehrssituationen. Die Werte der Tabelle \ref{T:avsd} bestimmen Wirkung und Unsicherheit der S\&V Dämpfern. Die grafische Darstellungen dieser Wahrscheinlichkeitsdichte sind in der Abbildung \ref{F:pWk} zu sehen.\\
+
+\begin{table}[!htb]
+	\begin{center}
+	\input{R_exports/D_Wirkung.tex}
+	\caption{Werte $avW_{tdr}$ und $\sigma_{tdr}$. Diese Werte wurden mithilfe des STARDAMP Tools berechnet (Bericht: \citeauthor{sbbWCalc} \citetitle{sbbWCalc}).}
+	\label{T:avsd}
+	\end{center}
+\end{table}
+
+\begin{figure*}[!htb]
+	\centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.7\textwidth]{R_exports/unnamed-chunk-8-1} 
+
+\end{knitrout}
+	\setcapwidth[c]{0.7\textwidth}
+	\caption{ Die Wahrscheinlichkeitsdichte der Wirkung für unterschiedliche TDR Klassen. Die bestimmenden Parameter dieser Normalverteilungen sind in Tabelle \ref{T:avsd} angegeben. }
+	\label{F:pWk}
+\end{figure*}
+
+Die multivariate Wahrscheinlichkeit von $(W,TDR_{ob})$ ist mit
+\begin{equation}
+\label{E:mvVd}
+	p_{W,TDR_{ob}}(w,tdr)= P(TDR_{ob}=tdr) \cdot p_{W|TDR_{ob}}(w|TDR_{ob}=tdr)\,.
+\end{equation}
+gegeben. In diesen Ausdruck fliessen über die Annahmen die bedingten Wahrscheinlichkeit von Gleichung \ref{E:bVW} ein. Die  Dichte der Dämpferwirkung entspricht der marginalen Wahrscheinlichkeit der Gleichung  \ref{E:mvVd} und lässt sich berechnen mit
+\begin{align}
+\begin{split}\label{E:p}
+	p_{W_{ob}}(w)&=\sum_{tdr} p_{W,TDR_{ob}}(w,tdr)\\
+	&=\sum_{tdr}\, P(TDR_{ob}=tdr)\cdot p_{W|TDR_{ob}}(w|TDR_{ob}=tdr)\,.
+\end{split}
+\end{align}
+
+Die marginale Wahrscheinlichkeitsdichte beschreibt die Wahrscheinlichkeit der Wirkung in einem Abschnitt mit Oberbau $ob$. In den Abbildungen \ref{F:distVar1}, \ref{F:distVar2} und \ref{F:distVar3} sind die marginale Wahrscheinlichkeiten dargestellt, welche bei der Hochrechnung verwendet werden.
+%
+\FloatBarrier
+\subsection{Einbau Entscheidung: KNI Kriterium und minimaler Effekt}
+Die Entscheidungskriterien für den Einbau von Dämpfern auf einem 100 m Abschnitt basieren auf dem erzielten Nutzen und dem minimalen Effekt $minEff$, welchen man bereit ist zu akzeptieren.\\
+
+Der Nutzen $N(w, bP)$ ist eine Funktion der Wirkung ($w$) und der vom Lärm betroffenen Personen ($bP$) eines Abschnitt. Man könnte den Nutzen auf mehrere Arten definieren. Hier haben wir entschieden, in Analogie zu Lärmschutzwänden die KNI-Berechnungen gemäss der Verordnung über die Lärmsanierung der Eisenbahnen (VLE) zu verwenden.  \footnote{
+Der Nutzen bei einer KNI-Berechnung wird aus der Wirkung und den betroffenen Personen berechnet. Die betroffenen Personen werden in Gruppen gleicher IGW-Überschreitung aufgeteilt. Jede Gruppe besteht aus $n_i$ Personen und ist mit die Überschreitung $k_i$ charakterisiert. Den Nutzen berechnen wir mit 
+\begin{equation*}
+	N(bP,w) \,=\,\sum_{i}\,n_i \cdot \Delta_{gew} dB(w,k_i) \, .
+\end{equation*} 
+$\Delta_{gew} dB(w,k)$ ist die gewichtete Lärmreduktion bei einer IGW Überschreitung von $k$ und wird mit folgender Formel berechnet:
+\begin{equation*}
+	\Delta_{gew} dB(w,k) \,=\, \int_{k-w}^k g(x)\, dx\,.
+\end{equation*}
+ $g(x)$ ist eine Gewichtungsfunktion, welche im unteren Bild dargestellt ist.
+\begin{center}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=0.6\textwidth]{R_exports/unnamed-chunk-9-1} 
+
+\end{knitrout}
+\end{center}
+}
+Der minimale Effekt ist eine im voraus festgelegte Wirkung, welche ein Dämpfer erreichen muss.\\
+
+Die Dämpfern werden dann auf einem Abschnitt eingebaut, wenn der Nutzen die vorbestimmte Schwelle $N_{min}$ überschreitet und falls eine Wirkung grösser als $minEff$ vorliegt. Mathematisch ausgedrückt: 
+\begin{equation}\label{E:bed1}
+	\begin{aligned}
+	N(w,bP) \,&\geq\, N_{min}\,=\, \frac{JK\cdot NG}{KNI}\\
+	W \,&\geq\, minEff
+	\end{aligned}
+\end{equation}
+$JK$ sind die Jahresinvestitionskosten von Dämpfer pro  \SI{100}{\metre} Abschnitt und pro Gleis.  $NG$ ist der Anzahl Gleise des Abschnitts. \\
+
+Die Nutzenfunktion ist auf einem Abschnitt mit bekannter $bP$,  monoton wachsend in $w$. Als Folge lässt sich die minimale Wirkung $w_{min}$  berechnen, so dass der minimale Nutzen erzielt wird, d.h:
+\begin{equation*}
+	w_{min}=\min_{w}\{w|N(w,bP_{abschnitt})< N_{min}\}
+\end{equation*} 
+Damit ist $N(w,bP) \,\geq\, N_{min} $ äquivalent zu $ w \,\geq\,w_{min}$ und somit lassen sich die Bedingungen im Gleichung \ref{E:bed1} überschreiben in
+\begin{equation} \label{E:bed2}
+ W \,\geq \,\max\{minEff,w_{min}\}\,.
+\end{equation}
+
+Wir haben gesehen, dass die Wirkung in einen Abschnitt nicht mit einem eindeutigen Wert, sondern durch die Zufallsvariable $W$ mit der Wahrscheinlichkeitsdichte $p_W$ (Gleichung \ref{E:p}  und Abbildungen \ref{F:distVar1} \ref{F:distVar2} und \ref{F:distVar3} )  beschrieben wird. Aus diesem Grund ist es nicht möglich, eine eindeutige \textit{Ja oder Nein} Aussage über die Erfüllung der Einbaukriterien in Gleichung \ref{E:bed2} zu treffen. Die korrekte Weise, um das Problem der Kriterienerfüllung  anzugehen wird durch das einführen des Konzepts der \textbf{Wahrscheinlichkeit eines Einbau} $p_{Einbau}$ erreicht. $p_{Einbau}$ lässt sich wie folgt berechnen:
+\begin{equation*}
+	p_{Einbau}\,=\,P(W\,\geq \,\max\{minEff,w_{min}\})\,=\,\int_{\max\{minEff,w_{min}\}}^{\infty} p_{W_{ob}}(w)\, d w\,.
+\end{equation*}
+$p_{Einbau}$ ist ein Wert Zwischen 0 und 1, je grösser er ist, desto höher ist die Wahrscheinlichkeit dass eine genügende Wirkung entsteht, um die Einbaukriterien in Gleichung \ref{E:bed2} zu erfüllen.\\
+Mathematisch kann man die Einbauentscheidung der Abschnitt $i$ mit der Bernoulli Zufallsvariable $E_i \in\{0,1\}$ (1 bedeutet Einbau, 0 keinen Einbau)  mit Wahrscheinlichkeit $p_{Einbau,i}$ darstellen.
+% % % % % % % % % % % % % %
+\subsection{Andere Beurteilungsgrössen: Kosten, Personen unter IGW} %, Lärmmasse}
+Folgende Grössen erlauben uns die berechnete Situation besser zu verstehen und werden deshalb ebenfalls für jeden Abschnitt bestimmt:
+\begin{enumerate}
+	\item \textbf{Die Investitionskosten} für einen Abschnitt bezeichnen wir mit der Zufallsvariable $K$. Falls der Abschnitt eingebaut wird ($E=1$) nimmt $K$ den Wert $NG\cdot IK$ ein, sonst sind die Kosten für den Abschnitt gleich 0.  $NG$ bezeichnet die Anzahl Gleise des Abschnitts, $IK$ die Investitionskosten pro Abschnitt und pro Gleis. Die Wahrscheinlichkeit der Zufallsvariable $K$ ist gegeben mit 
+	\begin{equation}
+		P(K=NG\cdot IK)\, =\, p_{Einbau}\qquad \mathrm{und} \qquad P(K=0)\, =\, 1- p_{Einbau}\,.
+	\end{equation}
+	Die Zufallsvariable "Kosten" kann auch als $K= NG\cdot E$ geschrieben werden.
+	% % % % % % % % % % % %
+	\item \textbf{Die Anzahl Personen unter IGW } bedeutet wie viele Anwohner mit IGW Überschreitungen neu unter den IGW gelangen. Dieser Wert wird auch Anzahl profitierender Personen genannt und mit $APP$ bezeichnet.
+	Für eine Wirkung von $w$ unter Verwendung der $bP$ Definition wird $APP$ wie folgt berechnet 
+	\begin{equation}\label{E:APP}
+		app(w) = \sum_{i=1}^11, h(k_i\,\leq\,w)\cdot bP_i
+	\end{equation}
+	Da in unserer Überlegung die Wirkung eine Zufallsvariable ist, wird $APP$ selber auch eine sein. Wir sind interessiert an der Wahrscheinlichkeit des Ereignisses $APP=app$ wenn es gemeinsam mit dem Ereignis 'Einbau' ($E=1$) eintritt. Aus der Definition in der Gleichung \ref{E:APP} und aus der Definition von $bP$ erkennt man, dass $APP$ für jeden Abschnitt maximal 12 unterschiedliche Werte annehmen kann. Somit ist $APP$ für jeden Abschnitt eine diskrete Zufallsvariable. Genauer: $\widehat{bP} = (\widehat{bP}_s)_{s=1,...,Ns}$  ist der Ns-Tupel der aus $(bP_i)_{i=1,...,11}$,  durch Entfernung der  Elemente $bP_i=0$, entsteht. Die Zufallsvariable $APP$ realisiert sich in einer der $s=1,...,Ns$ Werte $app_s = \sum_{i=1}^{Ns} \widehat{bP}_i $ . Die  Wahrscheinlichkeit  von $APP$ ist somit beschrieben durch
+	\begin{equation*}
+		P(APP=app_s) = P\left(\,W\,\geq \,\max\{minEff,w_{min}\}\, \wedge \, W\in[\hat{k}_s-1,\hat{k}_{s+1}-1[\, \right)
+	\end{equation*}
+	wobei $\hat{k}$ den ns-Tupel $\hat{k} = (k_i | bP_i\, \neq\, 0 )$ darstellt. Mit der restlichen Wahrscheinlichkeit tritt $APP=0$ ein.
+\end{enumerate}
+	% % % % % % % % % %
+%	\item \textbf{ Die Lärmmasse} entsteht aus der Multiplikation zwischen  den Anzahl Personen über IGW zusammen mit die Erzielte  der Wirkung. Wir bezeichnen diese Grösse mit die Zufallsvariable $LM$ welche Wert in $\{0\}\cup [ N_p\cdot w_{min},\infty[ $. Die Wahrscheinlichkeitsverteilungsdichte  von $LM$  für einem Abschnitt ist gegeben mit
+%	\begin{equation}\label{E:pLM}
+%		p_{LM}(lm)\, =\begin{cases}
+%		1-p_{Einbau} & \mathrm{für} \quad lm=0\\
+%		\frac{1}{N_p} \cdot p_W(\frac{lm}{N_p}) & \mathrm{für} \quad lm\geq N_p\cdot w_{min}
+%		\end{cases}
+%	\end{equation}
+%	
+\subsection{Hochrechnung; Gesamtbetrachtung alle Abschnitte}
+Bis jetzt haben wir alle Abschnitte einzeln betrachtet. Hier werden wir eine Kollektion $N$ von Abschnitten $A_n$ (indiziert mit $n \in \{1,...,N\}$) betrachten. Eine solche Kollektion entspricht, je nach Wahl, einer bestimmten Strecke oder das gesamte Schweizer Streckennetz. Unser Ziel ist, für eine bestimmte Kollektion von Abschnitten, folgende Grössen zu untersuchen: 
+\begin{enumerate}
+	\item \textbf{Gesamte Anzahl Eingebaute Abschnitte}:\\ dargestellt durch die Zufallsvariable
+	\begin{equation}\label{E:AEA}
+		AEA=\sum_{n=1}^{N} E_n
+	\end{equation}
+	Die Anzahl eingebauter Kilometer mit Dämpfern lassen sich daraus berechnen mit $0.1\cdot AEA$.
+	\item \textbf{Gesamtkosten:}\\ dargestellt durch die Zufallsvariable
+	\begin{equation}\label{E:GK}
+		GK=\sum_{n=1}^{N} K_n
+	\end{equation}
+	\item \textbf{Gesamte Anzahl profitierende Personen:}\\dargestellt durch die Zufallsvariable
+	\begin{equation}\label{E:GAPP}
+		GAPP=\sum_{n=1}^{N} APP_n
+	\end{equation}
+%	\item \textbf{Gesamte Lärmmasse:}\\ dargestellt durch die Zufallsvariable
+%	\begin{equation}\label{E:GLM}
+%		GLM=\sum_{i=1}^{N} LM_i
+%	\end{equation}
+\end{enumerate}
+Beachte: Die Zufallsvariablen $ E_n,\,APP_n,\,K_n$, auf den Abschnitt $n$ bezogen,
+\begin{itemize}
+\item sind diskrete Zufallvariablen und damit auch ihre Summen.
+\item sind aufgrund der Unterschiede zwischen den Abschnitte nicht gleich verteilt.
+\item sind für unterschiedliche $n$ unabhängig.
+\end{itemize}
+Für Grössen in Gleichungen \ref{E:AEA}-\ref{E:APP} werden wir entweder die Wahrscheinlichkeitsverteilung oder die Erwartungswerte berechnen.\\
+
+\subsubsection*{Gesamte Anzahl eingebaute Abschnitte}
+Für jeden Abschnitt ist die Wahrscheinlichkeit $E_n$ einer positiven Entscheidung $p_{Einbau,n}$  bekannt. Der Erwartungswert von $AEA$ lässt sich \footnote{Der Erwartungswert einer Zufallsvariable ist eine lineare Operation, das heisst 
+\begin{equation*}
+\mathbb{E}\left[A\,+\,\lambda\cdot B\right]= \mathbb{E}[ A] \,+ \,\lambda\cdot \mathbb{E}[B]\,.
+\end{equation*}
+Diese Tatsache ermöglicht die Berechnung der Erwartungswerte der Zufallsvariablen definiert in Gleichungen \ref{E:AEA}-\ref{E:GAPP} auf eine einfache Art und Weise
+}
+berechnen bei verwenden von $\mathbb{E}[ E_n]=p_{Einbau,n}$  und ist somit gleich
+\begin{equation*}
+	\mathbb{E}[AEA]\,=\,\sum_{n=1}^{N} p_{Einbau,n} \,.
+\end{equation*}
+Die Zufallsvariable $AEA$ (Gleichung \ref{E:AEA}) kann sich für alle ganzen Zahlen von $1$ bis $N$ realisieren. Die Wahrscheinlichkeit von $AEA$ lässt sich rekursiv berechnen mit
+\begin{gather*}
+	\begin{aligned}
+		P(EAE_{n+1}=aea)&=\, P(EAE_{n}=aea-1)\cdot p_{A_{n+1}} \, +\\
+		&\qquad\qquad  P(EAE_{n}=aea)\cdot (1-p_{A_{n+1}})
+	\end{aligned}
+	\qquad \text{für alle $aea<n+1$}\\
+	\intertext{und die Anfangsbedingungen}
+	P(EAE_{1}=1)\,= \, p_{A_{1}} \qquad\text{und}\qquad P(EAE_{1}=0) \,=\, 1-p_{A_{1}}\,. 
+\end{gather*}
+
+\subsubsection*{Gesamtkosten}
+Für jeden Abschnitt treten Kosten von $NG_n\cdot IK$ mit einer Wahrscheinlichkeit von  $p_{Einbau,n}$ ein.  Der erwartete Wert für die Kosten eines Abschnitts $i$  ist gleich $\mathbb{E}[ K_n]=IK \cdot NG_n \cdot  p_{Einbau,n}$, damit lassen sich die erwarteten Gesamtkosten berechnen.
+\begin{equation*}
+	\mathbb{E}[GK]\,=\, IK \cdot\sum_{n=1}^{N} NG_n \cdot p_{Einbau,n}\,.
+\end{equation*}
+Die Werte (hier mit $k$ bezeichnet ) welche die Zufallsvariable $GK$ (Gleichung \ref{E:GK}) annimmt hängt von den Werten $NG_n$ der Kollektion ab und sind schwierig zu bestimmen, jedoch für die Definition der Wahrscheinlichkeitsverteilung kann man alle Werte von $0$ bis $k_{max} =\sum_n^N NG_n$ betrachten, wobei die nicht vorkommenden Werte die Wahrscheinlichkeit Null haben werden. Die Berechnung der  Wahrscheinlichkeitsverteilung $\left(p_{GK}\right)_k$  erfolgt mithilfe von einigen Tricks:
+\begin{itemize}
+	\item Die Zufallsvariable $Exp_{GK}(z)=\exp^{z \cdot GK}$. $z$ wird als eine komplexe Zahl definiert. Der Erwartungswert von $Exp_{GK}(z)$ ist aufgrund der Unabhängigkeit der Variablen und Produkteigenschaften leicht zu berechnen
+	\begin{align}
+	\begin{split}\label{E:EExpGK}
+		\mathbb{E}[Exp_{GK}(z)]&= \prod_{n=1}^{N}\mathbb{E}[\exp^{z\cdot K_n}]\\
+		&= \prod_{n=1}^{N}\left[1+p_{Einbau,n}\left(\exp^{z\cdot IK\cdot NG_n}-1\right)\right]
+		\end{split}
+	\end{align}
+	
+	\item Anderseits ist $\mathbb{E}[Exp_N(z)]$  nach der Definition vom Erwartungswert durch 
+	\begin{equation}\label{E:DEExpGK}
+		\mathbb{E}[Exp_{GK}(z)]= \sum_{k=0}^{k_{max}} \exp^{z\cdot k} \left(p_{GK}\right)_k
+	\end{equation}
+	gegeben. $p_{GK}$  ist die unbekannte Wahrscheinlichkeitsverteilung von $GK$ und ist eine Folge der Länge $S=k_{max}+1$. Ersetzt $z$ in Gleichung \ref{E:EExpGK}  mit $-i\,s\frac{ 2\pi }{S}$  bekommt man den Ausdruck
+	\begin{align}\label{E:DFT}
+		\mathbb{E}\left[Exp_{GK}\left(-i\frac{ 2\pi }{S}s\right)\right]&= \sum_{k=0}^{S-1} \exp^{-i  \frac{ 2\pi }{S} s\,k} \left(p_{GK}\right)_k\\
+		& = \left(DFT\; p_{GK}\right)_s \,.\nonumber
+	\end{align}
+	Der Ausdruck \ref{E:DFT} ist nicht anderes als die diskrete Fourier-Transformation von $p_{GK}$ welche für $s \in \{0,\dots,S-1\}$ definiert wird.
+
+	\item $\left(DFT\; p_{GK}\right)_s$ wurde gleichzeitig in Gleichung \ref{E:EExpGK} berechnet. Somit lässt sich die inverse DFT berechnen mit
+	\begin{align}
+	\begin{split}
+	\left(p_{GK}\right)_k = &\frac{1}{S} \sum_{s=0}^{S-1} \left(DFT\; p_{GK}\right)_s \exp^{i\frac{ 2\pi }{S}s\,k} \\
+	&=\frac{1}{S} \sum_{s=0}^{S-1} \;\prod_{n=1}^{N}\left[1+p_{Einbau,n}\left(\exp^{-i\frac{ 2\pi }{S}s\, IK\cdot NG_n}-1\right)\right]\cdot \exp^{i\frac{ 2\pi }{S}s \,k}
+	\end{split}
+	\end{align}
+\end{itemize}
+R kann mit komplexe Zahlen rechnen, weshalb sich das Verfahren in einer einfachen Weise implementieren lässt.
+\subsubsection*{Gesamte Anzahl profitierende Personen}
+Der erwartete Wert für die Anzahl profitierende Personen eines Abschnitt $i$ ist gleich
+\begin{equation*}
+	\mathbb{E}[APP_n]\,=\,\sum_{s=1}^{ns_n}\, app_{n,s}\cdot P(APP_n=app_{n,s})\,.
+\end{equation*}
+Der Erwartungswert der gesamten Anzahl profitierender Personen lässt sich mit einer Summe berechnen. 
+
+%\subsubsection*{Gesamte  Lärmmasse}
+%Die Wahrscheinlichkeit Verteilungsdichte  der Lärmmasse einen Abschnitt ist in Gleichung  \ref{E:pLM} dargestellt.  Der Erwartete Wert für die Lärmmasse einen Abschnitt $i$  ist damit gleich 
+%\begin{equation}
+%	\mathbb{E}[LM_i]\,=\int^\infty_0\, lm \cdot p_{LM}(lm)\;d lm\,= N_{p,i}
+%	\cdot \int^\infty_{w_{min,i}}\,w\cdot p_W(w)\;d w \,.
+%\end{equation}
+%Der Erwartungswert der Gesamte Lärmmasse lässt sich durch eine Summenbildung berechnen. 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+\newpage
+\printbibliography
+\end{document}
+%

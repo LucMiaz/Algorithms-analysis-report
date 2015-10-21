@@ -1,0 +1,190 @@
+%gestion de la bibliographie
+
+\usepackage[citestyle=authoryear, backend=biber, bibencoding=inputenc,           language=french, isbn=false, bibstyle=verbose, sorting=nyt, autolang=langname]{biblatex}
+
+%changer l'affichage de la citation
+\renewcommand*{\nameyeardelim}{\addspace}
+\renewcommand*{\postnotedelim}{\addcolon\addspace}
+\renewcommand{\multicitedelim}[0]{\addcomma\addspace}
+\DeclareFieldFormat{postnote}{#1}
+\DeclareFieldFormat{multipostnote}{#1}
+
+\usepackage{xpatch}
+\xpretobibmacro{date+extrayear}{\addperiod\space}{}{}
+\xapptobibmacro{date+extrayear}{\nopunct}{}{}
+\AtEveryBibitem{%
+\clearname{translator}%
+\clearname{publisher}%
+\clearname{pagetotal}%
+}
+%pour citer une page : utiliser \autocite[pagnos]{citekey}
+%pour citer plusieur auteurs on utilise \autocites[pagnos]{citekey1}[séparateur][pagnos2]{citekey2}
+
+
+
+
+%-------------------------------------
+%-------------------------------------
+
+
+%changer opcit
+\DefineBibliographyStrings{french}{%
+opcit = \iffieldequalstr{entrytype}{article}%
+{art\adddotspace cit\adddot}%
+{op\adddotspace cit\adddot}%
+}
+
+%changer l'affichage de la bibliographie
+
+\renewcommand{\subtitlepunct}[0]{\addspace\addcolon\addspace}
+%the dash to be used as replacement for reccurent author
+\renewcommand{\bibnamedash}{\hspace*{2em}\rule[0.5ex]{2em}{.4pt}\addspace}
+\renewcommand{\labelnamepunct}[0]{\addcolon\addspace}
+
+
+%remove date from list
+\renewbibmacro*{publisher+location+date}{%
+  \printlist{location}%
+  \iflistundef{publisher}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{publisher}%
+  \setunit*{\addcomma\space}%
+  \newunit}
+%remove date from list
+\renewbibmacro*{institution+location+date}{%
+  \printlist{location}%
+  \iflistundef{institution}
+    {\setunit*{\addcomma\space}}
+    {\setunit*{\addcolon\space}}%
+  \printlist{institution}%
+  \setunit*{\addcomma\space}%
+  \newunit}
+ %
+\renewbibmacro*{location+date}{%
+  \printlist{location}%
+  \setunit*{\addcomma\space}%
+  \newunit}
+
+%adding date  \usebibmacro{date}% to all author calls
+\renewbibmacro*{author/editor}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\usebibmacro{editor}}
+    \setunit*{\addspace}
+    \usebibmacro{date}}
+
+\renewbibmacro*{author/editor+others}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\usebibmacro{editor+others}}
+    \setunit*{\addspace}
+    \usebibmacro{date}}
+
+\renewbibmacro*{author/translator}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\usebibmacro{translator}}
+    \setunit*{\addspace}
+    \usebibmacro{date}}
+
+\renewbibmacro*{author/translator+others}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\usebibmacro{translator+others}}
+    \setunit*{\addspace}
+    \usebibmacro{date}}
+
+\renewbibmacro*{author/editor/translator}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\ifboolexpr{
+       test \ifuseeditor
+       and
+       not test {\ifnameundef{editor}}
+     }
+       {\usebibmacro{editor}}
+       {\usebibmacro{translator}}}
+       \setunit*{\addspace}
+    \usebibmacro{date}}
+
+\renewbibmacro*{author/editor+others/translator+others}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{author}}
+    {\ifboolexpr{
+       test \ifuseeditor
+       and
+       not test {\ifnameundef{editor}}
+     }
+       {\usebibmacro{editor+others}}
+       {\usebibmacro{translator+others}}}
+       \setunit*{\addspace}
+    \usebibmacro{date}}
+
+%-----------remove "in" in journals entries ------%
+
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{%
+  \printtext{\bibstring{in}\intitlepunct}}}
+
+
+%-----------bold for author---------%
+\ExecuteBibliographyOptions{firstinits=true,maxnames=15}
+
+\DeclareNameAlias{sortname}{last-first}
+
+\AtBeginBibliography{%
+  \renewcommand*{\multinamedelim}{\addcomma\space}%
+  \renewcommand*{\finalnamedelim}{\addcomma\space}%
+}
+
+\DefineBibliographyStrings{ngerman}{%
+  andothers = {et\addspace al\adddotspace},%
+  andmore = {et\addspace al\adddotspace},%
+}
+
+\usepackage{xpatch}
+\xpretobibmacro{author}{\mkbibbold\bgroup}{}{}
+\xapptobibmacro{author}{\egroup}{}{}
+\xpretobibmacro{bbx:editor}{\mkbibbold\bgroup}{}{}
+\xapptobibmacro{bbx:editor}{\egroup}{}{}
+
+\renewcommand*{\labelnamepunct}{\mkbibbold{\addcolon\space}}
+
+%----------remove quotation mark--------%
+\DeclareFieldFormat[article]{citetitle}{#1}
+\DeclareFieldFormat[article]{title}{#1}
+
+%----------------------correct article output--------------------%
+
+\DeclareBibliographyDriver{article}{
+\ifnameundef{pages}
+{\textbf{\printnames{author}} \addspace \printfield{year} \addspace \addcolon \addspace \printfield{title} \addperiod \printfield{journaltitle} \printfield{volume} \addperiod\finentry}
+{\textbf{\printnames{author}} \addspace \printfield{year} \addspace \addcolon \addspace \printfield{title} \addperiod \addspace \printfield{journaltitle} \printfield{volume} \addcomma \printfield{pages} \finentry}}
+
+
+	
