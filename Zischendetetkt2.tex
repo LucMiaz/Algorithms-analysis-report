@@ -1,15 +1,139 @@
-\documentclass[11pt,a4paper,DIV9,BCOR1.5mm,twoside]{scrartcl}
+\documentclass[11pt,a4paper,DIV9,BCOR1.5mm,twoside]{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 \usepackage{import}
 \subimport*{}{packages/Bericht_Hoch.tex}
 \subimport*{}{packages/colors.tex}
-\usepackage{Sweave}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
-\input{Zischendetetkt2-concordance}
-\begin{Schunk}
-\begin{Sinput}
-> library(jsonlite)
-> library(ggplot2)
-> library(dplyr)
-> library(RColorBrewer)
-> json_file='Datamaous.json'
-> tf<-fromJSON(json_file)
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(jsonlite)}
+\hlkwd{library}\hlstd{(ggplot2)}
+\hlkwd{library}\hlstd{(dplyr)}
+\hlkwd{library}\hlstd{(RColorBrewer)}
+\hlkwd{library}\hlstd{(extrafont)}
+\hlkwd{loadfonts}\hlstd{()}
+\hlstd{json_file}\hlkwb{=}\hlstr{"Datamaous.json"}
+\hlstd{tf}\hlkwb{<-}\hlkwd{fromJSON}\hlstd{(json_file)}
+\hlkwd{remove}\hlstd{(json_file)}
+\hlstd{clusters}\hlkwb{<-}\hlkwd{kmeans}\hlstd{(tf}\hlopt{$}\hlstd{spec,}\hlnum{100}\hlstd{)}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in array(x, c(length(x), 1L), if (!is.null(names(x))) list(names(x), : 'data' muss vom Typ vector sein, war 'NULL'}}\begin{alltt}
+\hlstd{tf[,}\hlstr{'cluster'}\hlstd{]}\hlkwb{<-}\hlstd{clusters}\hlopt{$}\hlstd{cluster}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error in eval(expr, envir, enclos): Objekt 'clusters' nicht gefunden}}\begin{alltt}
+\hlcom{#to do add clusters$cluster column to tf and then merge by groups...}
+\hlcom{#tf<-cbind()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{figure}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{theme_set}\hlstd{(}\hlkwd{theme_bw}\hlstd{())}
+\hlcom{#barplot<-ggplot(data=subset(tf, cluster %in% arrange(cluster, desc(cluster))[1:4,]), aes(spec, fill=as.factor(cluster)))+}
+\hlstd{barplot}\hlkwb{<-}\hlkwd{ggplot}\hlstd{(}\hlkwc{data}\hlstd{=tf,} \hlkwd{aes}\hlstd{(disc, spec))}\hlopt{+}
+\hlcom{#geom_histogram(binwidth=0.2,alpha = 0.4, position = 'identity')+}
+  \hlkwd{geom_violin}\hlstd{()}
+\end{alltt}
+
+
+{\ttfamily\noindent\bfseries\color{errorcolor}{\#\# Error: ggplot2 doesn't know how to deal with data of class list}}\begin{alltt}
+  \hlkwd{theme}\hlstd{(}\hlkwc{text}\hlstd{=}\hlkwd{element_text}\hlstd{(}\hlkwc{size}\hlstd{=}\hlnum{16}\hlstd{,} \hlkwc{family}\hlstd{=}\hlstr{"Helvetica Neue"}\hlstd{))}
+\end{alltt}
+\begin{verbatim}
+## List of 1
+##  $ text:List of 8
+##   ..$ family    : chr "Helvetica Neue"
+##   ..$ face      : NULL
+##   ..$ colour    : NULL
+##   ..$ size      : num 16
+##   ..$ hjust     : NULL
+##   ..$ vjust     : NULL
+##   ..$ angle     : NULL
+##   ..$ lineheight: NULL
+##   ..- attr(*, "class")= chr [1:2] "element_text" "element"
+##  - attr(*, "class")= chr [1:2] "theme" "gg"
+##  - attr(*, "complete")= logi FALSE
+\end{verbatim}
+\begin{alltt}
+\hlstd{barplot}
+\end{alltt}
+\begin{verbatim}
+## function (height, ...) 
+## UseMethod("barplot")
+## <bytecode: 0x0000000006cd56d8>
+## <environment: namespace:graphics>
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\end{figure}
+\begin{figure}
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# rocplot<-ggplot(tprfpr, aes(tprfpr$TPR,tprfpr$FPR))}
+\hlcom{# rocplot+geom_point()}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\end{figure}
+
+
+\end{document}

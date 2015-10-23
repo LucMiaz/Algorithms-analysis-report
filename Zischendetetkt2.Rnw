@@ -3,28 +3,48 @@
 \subimport*{}{packages/Bericht_Hoch.tex}
 \subimport*{}{packages/colors.tex}
 \begin{document}
-\SweaveOpts{concordance=TRUE}
-<<>>=
+<<knitr_options, include=FALSE>>=
+opts_chunk$set(fig.width=12, fig.height=4, fig.path='RnwFigs/',
+               warning=FALSE, message=FALSE, tidy=FALSE)
+options(width=60)
+set.seed(53079239)
+@
+
+<<import_json_file>>=
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
 library(RColorBrewer)
-json_file='Datamaous.json'
-tf<-fromJSON(json_file)
+library(extrafont)
+loadfonts()
+json_file="Datamaous.json"
+csv_file="Datamaous.csv"
+tf<-read.csv(csv_file)
 remove(json_file)
-clusters<-kmeans(tf$spec,100)
+clusters<-kmeans(tf$spec,1000)
+tf[,'cluster']<-clusters$cluster
 #to do add clusters$cluster column to tf and then merge by groups...
 #tf<-cbind()
 @
+<<ggplot_init>>=
+@
 \begin{figure}
-<<fig=TRUE,echo=FALSE>>=
-# barplot<-ggplot(data=tf, aes(BPR, fill=as.factor(disc)))+
-#    geom_histogram(binwidth=0.2,alpha = 0.5, aes(y = ..density..), position = 'identity')
-# barplot
+<<barplot, out.height= '0.5\\textwidth',fig.height=8>>=
+theme_bw<-theme_update(text=element_text(size=14, family="Helvetica Neue"), axis.text=element_text(family="Helvetica Neue"),legend.background=element_rect(fill="#f5f5f5"))
+theme_set(theme_bw())
+#barplot<-ggplot(data=subset(tf, cluster %in% arrange(cluster, desc(cluster))[1:4,]), aes(spec, fill=as.factor(cluster)))+
+barplot<-ggplot(data=tf, aes(disct, spec, fill=as.factor(disct)))+geom_violin()+
+#geom_histogram(binwidth=0.2,alpha = 0.4, position = 'identity')+
+  xlab("Element was selected as flanging") + ylab("BPR")+
+  coord_flip()+#rotates the graphic
+  facet_wrap(cluster~author)+#plots by author
+  scale_fill_brewer(type='div')#colorscale
+ggsave("font_ggplot.pdf", plot=barplot,  width=10, height=4)
+barplot
 @
 \end{figure}
 \begin{figure}
-<<fig=TRUE,echo=FALSE>>=
+<<>>=
 # rocplot<-ggplot(tprfpr, aes(tprfpr$TPR,tprfpr$FPR))
 # rocplot+geom_point()
 @
