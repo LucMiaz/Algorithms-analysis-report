@@ -12,7 +12,6 @@ def extract_for_R(filespath,listofspec=['BPR'],outputname='Datamaous'):
     if not isinstance(filespath,pathlib.Path):
         filespath=pathlib.Path(filespath)
     parentfilepath=filespath.parent
-    
     ## insert possible algorithm specific values (like BPR for Z2)
     listofspec=['BPR']#insert
     #import of the following values
@@ -22,7 +21,7 @@ def extract_for_R(filespath,listofspec=['BPR'],outputname='Datamaous'):
     qualitydict={'good':3,'medium':2,'bad':1,'NA':0}
     discdict={0:'F',1:'T'}
     with parentfilepath.joinpath(str(outputname)+'.csv').open("w") as ostream:
-        writer=csv.DictWriter(ostream, keys)
+        writer=csv.DictWriter(ostream, delimiter=',', lineterminator='\n', fieldnames=keys)
         titlerow={}
         for key in keys:
             titlerow[key]=str(key)
@@ -34,6 +33,7 @@ def extract_for_R(filespath,listofspec=['BPR'],outputname='Datamaous'):
                 Cases=dictio['case_tests']#takes the dedicated dictionnary for R
                 algorithm=dictio['algorithm']['id']
                 algorithmprop=dictio['algorithm']['prop']
+                noise=dictio['algorithm']['noiseType']
                 for case in Cases:#iterates over cases
                     mID=Cases[case]['mID']
                     mic=Cases[case]['mic']
@@ -64,14 +64,15 @@ def extract_for_R(filespath,listofspec=['BPR'],outputname='Datamaous'):
                                     row['algprop']=algorithmprop
                                     row['time']=t
                                     row['location']=location
+                                    row['NoiseT']=noise
                                     datamaous.append(row)
                                     writer.writerow(row)
     try:
         os.remove(parentfilepath.joinpath(str(outputname)+'.json'))
     except:
         pass
-    #with parentfilepath.joinpath(str(outputname)+'.json').open("w+") as ostream:
-    #    json.dump(datamaous,ostream)
+    with parentfilepath.joinpath(str(outputname)+'.json').open("w+") as ostream:
+        json.dump(datamaous,ostream)
     
 if __name__=="__main__":
     extract_for_R("C:/lucmiaz/Algorithms-analysis-report/results")
