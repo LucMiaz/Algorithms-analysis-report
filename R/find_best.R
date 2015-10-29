@@ -1,4 +1,4 @@
-find_best<-function(tff, plotName='figures/plotname.pdf', authors=unique(tff$author), qualities=unique(tff$quality)){
+find_best<-function(tff, title='ROC',plotName='figures/plotname.pdf', authors=unique(tff$author), qualities=unique(tff$quality),fixedthreshold=FALSE,bw=500){
   bestones<-data.frame('TPR'=double(),'FPR'=double(),'thd'=double(),'totP'=double(), 'totF'=double(),'alg'=character(),'algprop'=character(), 'delta'=double())
   #iterate on algorithms
   for (al in unique(tff$alg)){
@@ -7,8 +7,11 @@ find_best<-function(tff, plotName='figures/plotname.pdf', authors=unique(tff$aut
       sums<-data.frame('TPR'=double(),'FPR'=double(),'thd'=double(),'totP'=double(), 'totF'=double(), 'delta'=double())
       algtf<-filter(tff, algprop==alp & alg==al)
       #iterate on thresholds
-      #thresholds<-seq(min(algtf$spec),max(algtf$spec),(max(algtf$spec)-min(algtf$spec))/200)
-      thresholds<-seq(-1,10,0.1)
+      if (fixedthreshold){
+        thresholds<-seq(-1,10,11/bw)}
+      else{
+        thresholds<-seq(min(algtf$spec),max(algtf$spec),(max(algtf$spec)-min(algtf$spec))/bw)
+      }
       delta<-thresholds[[2]]-thresholds[[1]]
       for (i in thresholds){
         TP<-tally(filter(algtf, spec<=i & disc==1 & author %in% authors & quality %in% qualities))
@@ -29,8 +32,8 @@ find_best<-function(tff, plotName='figures/plotname.pdf', authors=unique(tff$aut
   
   bestones<-bestones[mixedsort(bestones$algprop),]
   bestones<-cbind(bestones, data.frame('dif'=bestones$TPR-bestones$FPR))
-  rocplot <- ggplot(bestones, aes(bestones$FPR,bestones$TPR,color=bestones$algprop, title='Algorithms'))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
-    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
+  rocplot <- ggplot(bestones, aes(bestones$FPR,bestones$TPR, title='Algorithms'))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name=title)+
     scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
     geom_point(aes(shape=bestones$algprop,label=bestones$algprop),size=2)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+

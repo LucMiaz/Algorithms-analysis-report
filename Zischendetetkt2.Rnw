@@ -56,11 +56,15 @@ ggsave("figures/barplot.pdf", plot=barplot,width=20,height=20)
 \end{figure}
 
 <<>>=
-best<-find_best(tf)
+best<-find_best(tf, authors=list('luc','PHF'),plotName='figures/roc.pdf')
 best$plot
 @
 <<>>=
-bestPHF <-find_best(tf, plotName='figures/PHFbest.pdf', authors=list('PHF'))
+bestPHF <-find_best(tf, title='ROC for PHF',plotName='figures/PHFroc.pdf', authors=list('PHF'))
 bestPHF$plot
+@
+<<>>=
+bestluc<-find_best(tf,title='ROC for luc',plotName='figures/lucroc.pdf',authors=list('luc'))
+bestluc$plot
 @
 \end{document}
