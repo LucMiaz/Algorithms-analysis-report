@@ -11,7 +11,8 @@ set.seed(53079239)
 @
 
 <<import_json_file>>=
-setwd("C:/lucmiaz/algorithms-analysis-report")
+# setwd("C:/lucmiaz/algorithms-analysis-report")
+setwd('/Users/lucmiaz/Documents/TRAVAIL/SBB_KG/algorithms-analysis-report')
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
@@ -50,17 +51,39 @@ barplot
 \end{figure}
 \begin{figure}
 <<barplot>>=
-barplot<-ggplot(data=filter(tf, tf$author!='esr' & tf$quality!=1), aes(spec, fill=as.factor(disct)))+geom_histogram()+scale_fill_brewer('Paired')+xlab("BPR") + ylab("Count")+facet_wrap(algprop~author, scale="free")
+barplot<-ggplot(data=filter(tf, tf$author!='esr' & tf$quality!=1), aes(spec, fill=as.factor(disct)))+geom_histogram()+scale_fifill_brewer('Paired')+xlab("BPR") + ylab("Count")+facet_wrap(algprop~author, scale="free")
 ggsave("figures/barplot.pdf", plot=barplot,width=20,height=20)
 @
 \end{figure}
 
 <<>>=
-best<-find_best(tf)
-best$plot
+best<-find_best(tf, qualities=c(3,2))
+rocplot <- ggplot(best, aes(best$FPR,best$TPR,color=best$algprop, title="Algorithms - all authors"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
+    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
+    geom_point(aes(shape=best$algprop,label=best$algprop),size=2)+
+    xlab("False Positive Rate") + ylab("True Positive Rate")+
+    labs("ROC")
+    ggsave('figures/ROCin.pdf', plot=rocplot, width=8, height=6)
 @
 <<>>=
-bestPHF <-find_best(tf, plotName='figures/PHFbest.pdf', authors=list('PHF'))
-bestPHF$plot
+bestPHF <-find_best(tf, authors=c('PHF'))
+rocplot <- ggplot(bestPHF, aes(bestPHF$FPR,bestPHF$TPR,color=bestPHF$algprop, title="Algorithms - PHF"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
+    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
+    geom_point(aes(shape=bestPHF$algprop,label=bestPHF$algprop),size=2)+
+    xlab("False Positive Rate") + ylab("True Positive Rate")+
+    labs("ROC")
+    ggsave('figures/PHFin.pdf', plot=rocplot, width=8, height=6)
+@
+<<>>=
+bestLuc <- find_best(tf,authors=c('luc'))
+rocplot <- ggplot(bestLuc, aes(bestLuc$FPR,bestLuc$TPR,color=bestLuc$algprop, title="Algorithms"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
+    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
+    geom_point(aes(shape=bestLuc$algprop,label=bestLuc$algprop),size=2)+
+    xlab("False Positive Rate") + ylab("True Positive Rate")+
+    labs("ROC")
+    ggsave('figures/Lucin.pdf', plot=rocplot, width=8, height=6)
 @
 \end{document}
