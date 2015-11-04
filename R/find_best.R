@@ -22,8 +22,8 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
       }
       delta<-thresholds[[2]]-thresholds[[1]]
       for (i in thresholds){
-        TP<-tally(filter(algtf, spec<i & disc==1))
-        FP<-tally(filter(algtf, spec<i & disc==0))
+        TP<-tally(filter(algtf, spec>i & disc==1))
+        FP<-tally(filter(algtf, spec>i & disc==0))
         totP<-tally(filter(algtf,disc==1))
         totF<-tally(filter(algtf,disc==0))
         if (totP>0 & totF>0){
@@ -31,7 +31,7 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
           TPR=TP/totP
           d_ax<-(TPR+FPR)/2
           dist_ax<-sqrt( (d_ax-FPR)**2 + (d_ax-TPR)**2 )
-          sums[nrow(sums)+1,]<- data.frame('FPR'=FPR, 'TPR'=TPR, 'thd'=as.numeric(i), 'totP'=totP, 'totF'=totF, 'dist_ax'=dist_ax,'d_ax'=d_ax)
+          sums[nrow(sums)+1,]<- data.frame('TPR'=TPR,'FPR'=FPR, 'thd'=as.numeric(i), 'totP'=totP, 'totF'=totF, 'dist_ax'=dist_ax,'d_ax'=d_ax)
           remove(dist_ax,d_ax, FPR,TPR)
           }
       }
