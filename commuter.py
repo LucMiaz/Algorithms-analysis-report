@@ -111,8 +111,8 @@ def extract_rates(filespath,outputname='Datamaous_2'):
                     for key in keys:
                         row[author+'_'+key]=dictio['rates'][author][key]
                 row['algprop']=dictio['algorithm']['prop']
-                row['alg']=dictio['algorithm']['id']
                 row['thd']=dictio['algorithm']['param']['threshold']
+                row['alg']=dictio['algorithm']['id']
                 writer.writerow(row)
 if __name__=="__main__":
     #extract_for_R("C:/lucmiaz/Algorithms-analysis-report/results")
