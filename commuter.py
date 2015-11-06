@@ -73,6 +73,41 @@ def extract_for_R(filespath,listofspec=['BPR'],outputname='Datamaous'):
         pass
     with parentfilepath.joinpath(str(outputname)+'.json').open("w+") as ostream:
         json.dump(datamaous,ostream)
-    
+def extract_rates(filespath,outputname='Datamaous_2'):
+    ## insert folder path
+    if not isinstance(filespath,pathlib.Path):
+        filespath=pathlib.Path(filespath)
+    parentfilepath=filespath.parent
+    ## insert possible algorithm specific values (like BPR for Z2)
+    listofspec=['BPR']#insert
+    #import of the following values
+    datamaous={}
+    authors=['esr','luc','PHF','PhC']
+    keys=['TPR', 'TNR', 'FPR', 'FNR']
+    fieldnm=list(keys)
+    for author in authors:
+        for key in keys:
+            fieldnm.append(author+'_'+key)
+    with parentfilepath.joinpath(str(outputname)+'.csv').open("w") as ostream:
+        writer=csv.DictWriter(ostream, delimiter=',', lineterminator='\n', fieldnames=fieldnm)
+        titlerow={}
+        for key in keys:
+            titlerow[key]=str(key)
+        for author in authors:
+            for key in keys:
+                titlerow[author+'_'+key]=str(author+'_'+key)
+        writer.writerow(titlerow)
+        for file in filespath.iterdir():
+            if file.match("**.json"):#checks if file is a json
+                with filespath.joinpath(file).open("r+") as istream:#opens file
+                    dictio=json.load(istream)#loads json file
+                row={}
+                for key in keys:
+                    row[key]=dictio['rates'][key]
+                for author in authors:
+                    for key in keys:
+                        row[author+'_'+key]=dictio['rates'][author][key]
+                writer.writerow(row)
 if __name__=="__main__":
-    extract_for_R("C:/lucmiaz/Algorithms-analysis-report/results")
+    #extract_for_R("C:/lucmiaz/Algorithms-analysis-report/results")
+    extract_rates('C:/lucmiaz/algorithms-analysis-report/WallofFame/results')

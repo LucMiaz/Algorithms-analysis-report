@@ -67,13 +67,13 @@ rocplot <- ggplot(best, aes(best$FPR,best$TPR,color=best$algprop, title="Algorit
 @
 <<>>=
 bestesr <-find_best(tf, authors=c('esr'),qualities=c(2,3))
-rocplot <- ggplot(bestesr, aes(bestesr$FPR,bestesr$TPR,color=bestesr$algprop, title="Algorithms - esr"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+rocplotesr <- ggplot(bestesr, aes(bestesr$FPR,bestesr$TPR,color=bestesr$algprop, title="Algorithms - esr"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
     scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
     scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
     geom_point(aes(shape=bestesr$algprop,label=bestesr$algprop),size=2)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+
     labs("ROC")
-    ggsave('figures/esr.pdf', plot=rocplot, width=8, height=6)
+    ggsave('figures/esr.pdf', plot=rocplotesr, width=8, height=6)
 @
 <<>>=
 bestPHF <-find_best(tf, authors=c('PHF'),qualities=c(2,3))
@@ -83,26 +83,31 @@ rocplotPHF <- ggplot(bestPHF, aes(bestPHF$FPR,bestPHF$TPR,color=bestPHF$algprop,
     geom_point(aes(shape=bestPHF$algprop,label=bestPHF$algprop),size=2)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+
     labs("ROC")
-    ggsave('figures/PHF.pdf', plot=rocplot, width=8, height=6)
+    ggsave('figures/PHF.pdf', plot=rocplotPHF, width=8, height=6)
 @
 <<>>=
 bestLuc <- find_best(tf,authors=c('luc'), qualities=c(2,3))
-rocplot <- ggplot(bestLuc, aes(bestLuc$FPR,bestLuc$TPR,color=bestLuc$algprop, title="Algorithms - luc"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+rocplotluc <- ggplot(bestLuc, aes(bestLuc$FPR,bestLuc$TPR,color=bestLuc$algprop, title="Algorithms - luc"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
     scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
     scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
     geom_point(aes(shape=bestLuc$algprop,label=bestLuc$algprop),size=2)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+
     labs("ROC")
-    ggsave('figures/Luc.pdf', plot=rocplot, width=8, height=6)
+    ggsave('figures/Luc.pdf', plot=rocplotluc, width=8, height=6)
 @
 <<>>=
 bestPhC <- find_best(tf,authors=c('PhC'), qualities=c(2,3))
-rocplot <- ggplot(bestPhC, aes(bestPhC$FPR,bestPhC$TPR,color=bestPhC$algprop, title="Algorithms - PhC"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+rocplotphc <- ggplot(bestPhC, aes(bestPhC$FPR,bestPhC$TPR,color=bestPhC$algprop, title="Algorithms - PhC"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
     scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
     scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
     geom_point(aes(shape=bestPhC$algprop,label=bestPhC$algprop),size=2)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+
     labs("ROC")
-    ggsave('figures/PhC.pdf', plot=rocplot, width=8, height=6)
+    ggsave('figures/PhC.pdf', plot=rocplotphc, width=8, height=6)
+@
+<<>>=
+walloffame<- rbind(cbind(best, author='all'), cbind(bestesr,author='esr'),cbind(bestLuc,author='luc'),cbind(bestPhC,author='PhC'),cbind(bestPHF,author='PHF'))
+walloffamest<-filter(walloffame, walloffame$dist_ax>0.45 | (walloffame$author=='all' & walloffame$dist_ax>0.35))
+compressed<-walloffamest %>% group_by(algprop) %>% summarise( avgthres=mean(thd)) %>% arrange(avgthres)
 @
 \end{document}

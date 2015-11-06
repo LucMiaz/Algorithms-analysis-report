@@ -1,3 +1,19 @@
+TPFP_func<-function(df, threshold){
+  TP<-tally(filter(df, spec>threshold & disc==1))
+  FP<-tally(filter(df, spec>threshold & disc==0))
+  totP<-tally(filter(df,disc==1))
+  totF<-tally(filter(df,disc==0))
+  if (totP>0 & totF>0){
+    FPR<-FP/totF
+    TPR=TP/totP
+    d_ax<-(TPR+FPR)/2
+    dist_ax<-sqrt( (d_ax-FPR)**2 + (d_ax-TPR)**2 )**2
+    return(data.frame('TPR'=TPR,'FPR'=FPR,'thd'=threshold,'totP'=totP, 'totF'=totF,'dist_ax'=dist_ax,'d_ax'=d_ax))
+  }else{
+    return(data.frame('TPR'=double(),'FPR'=double(),'thd'=double(),'totP'=double(), 'totF'=double(),'dist_ax'=double(),'d_ax'=double()))
+  }
+}
+
 find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, bw=200){
   if (length(qualities)==0){
     qualities<-unique(tf$quality)
@@ -12,7 +28,7 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
   for (al in unique(tff$alg)){
   #iterate on parameters
     for (alp in unique(tff$algprop)){
-      sums<-data.frame('TPR'=double(),'FPR'=double(),'thd'=double(),'totP'=double(), 'totF'=double(),'dist_ax'=double(),'d_ax'=double(), 'delta'=double())
+      sums<-data.frame('TPR'=double(),'FPR'=double(),'thd'=double(),'totP'=double(), 'totF'=double(),'dist_ax'=double(),'d_ax'=double())
       algtf<-filter(tff, algprop==alp & alg==al & author %in% authors & quality %in% qualities)
       #iterate on thresholds
       if (fixedthreshold){
@@ -22,18 +38,11 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
       }
       delta<-thresholds[[2]]-thresholds[[1]]
       for (i in thresholds){
-        TP<-tally(filter(algtf, spec>i & disc==1))
-        FP<-tally(filter(algtf, spec>i & disc==0))
-        totP<-tally(filter(algtf,disc==1))
-        totF<-tally(filter(algtf,disc==0))
-        if (totP>0 & totF>0){
-          FPR<-FP/totF
-          TPR=TP/totP
-          d_ax<-(TPR+FPR)/2
-          dist_ax<-sqrt( (d_ax-FPR)**2 + (d_ax-TPR)**2 )
-          sums[nrow(sums)+1,]<- data.frame('TPR'=TPR,'FPR'=FPR, 'thd'=as.numeric(i), 'totP'=totP, 'totF'=totF, 'dist_ax'=dist_ax,'d_ax'=d_ax)
+          tpfp=TPFP_func(algtf, i)
+          #sums[nrow(sums)+1,]<- tpfp
+          sums<-rbind(sums, tpfp)
           remove(dist_ax,d_ax, FPR,TPR)
-          }
+          
       }
       thresmax<-which.max(sums$dist_ax)
 #       filtre<-filter(sums, thd!=sums$thd[thresmax])
@@ -56,6 +65,7 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
   remove(authors, qualities, delta, fixedthreshold)
   return(bestones)
 }
+
 
 plot_best<- function(bestones, plotName='figures/plotname.pdf'){
   rocplot <- ggplot(bestones, aes(bestones$FPR,bestones$TPR,color=bestones$algprop, title="Algorithms"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
