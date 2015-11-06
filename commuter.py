@@ -83,7 +83,7 @@ def extract_rates(filespath,outputname='Datamaous_2'):
     #import of the following values
     datamaous={}
     authors=['esr','luc','PHF','PhC']
-    keys=['TPR', 'TNR', 'FPR', 'FNR']
+    keys=['TPR', 'TNR', 'FPR', 'FNR','d_ax','dist_ax']
     fieldnm=list(keys)
     for author in authors:
         for key in keys:
@@ -106,10 +106,19 @@ def extract_rates(filespath,outputname='Datamaous_2'):
                     dictio=json.load(istream)#loads json file
                 row={}
                 for key in keys:
-                    row[key]=dictio['rates'][key]
+                    if not (key=='d_ax' or key=='dist_ax'):
+                        row[key]=dictio['rates'][key]
+                row['d_ax']=(dictio['rates']['TPR']+dictio['rates']['FPR'])/2
+                row['dist_ax']=((row['d_ax']-dictio['rates']['TPR'])**2+(row['d_ax']-dictio['rates']['FPR'])**2)**0.5
                 for author in authors:
                     for key in keys:
-                        row[author+'_'+key]=dictio['rates'][author][key]
+                        if key=='d_ax' or key=='dist_ax':
+                            if key=='d_ax':
+                                row[author+'_d_ax']=(dictio['rates'][author]['TPR']+dictio['rates'][author]['FPR'])/2
+                                row[author+'_dist_ax']=((row[author+'_d_ax']-dictio['rates'][author]['TPR'])**2+(row[author+'_d_ax']-dictio['rates'][author]['FPR'])**2)**0.5
+                        else:
+                            row[author+'_'+key]=dictio['rates'][author][key]
+                        
                 row['algprop']=dictio['algorithm']['prop']
                 row['thd']=dictio['algorithm']['param']['threshold']
                 row['alg']=dictio['algorithm']['id']

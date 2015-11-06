@@ -110,4 +110,19 @@ walloffame<- rbind(cbind(best, author='all'), cbind(bestesr,author='esr'),cbind(
 walloffamest<-filter(walloffame, walloffame$dist_ax>0.45 | (walloffame$author=='all' & walloffame$dist_ax>0.35))
 compressed<-walloffamest %>% group_by(algprop) %>% summarise( avgthres=mean(thd)) %>% arrange(avgthres)
 @
+<<>>=
+Datamaous2<-read.csv('WallofFame/Datamaous_2.csv')
+rocplotdatamaous <- ggplot(Datamaous2, aes(Datamaous2$FPR,Datamaous2$TPR,color=Datamaous2$algprop, title="Algorithms - datamaous"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+    scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
+    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
+    geom_point(aes(shape=Datamaous2$algprop,label=Datamaous2$algprop),size=2)+
+    xlab("False Positive Rate") + ylab("True Positive Rate")+
+    labs("ROC")
+    ggsave('figures/datamaous.pdf', plot=rocplotdatamaous, width=8, height=6)
+@
+<<>>=
+submaous<-select(Datamaous2, dist_ax, esr_dist_ax, luc_dist_ax, PHF_dist_ax, PhC_dist_ax, X, X.1)
+submaous<-mutate(submaous, tot_dist=(dist_ax+esr_dist_ax+luc_dist_ax+PHF_dist_ax+PhC_dist_ax)/5)
+write.csv(submaous, 'WallofFame/datamaous_dist.csv')
+@
 \end{document}
