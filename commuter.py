@@ -88,6 +88,9 @@ def extract_rates(filespath,outputname='Datamaous_2'):
     for author in authors:
         for key in keys:
             fieldnm.append(author+'_'+key)
+    fieldnm.append('algprop')
+    fieldnm.append('thd')
+    fieldnm.append('alg')
     with parentfilepath.joinpath(str(outputname)+'.csv').open("w") as ostream:
         writer=csv.DictWriter(ostream, delimiter=',', lineterminator='\n', fieldnames=fieldnm)
         titlerow={}
@@ -107,6 +110,9 @@ def extract_rates(filespath,outputname='Datamaous_2'):
                 for author in authors:
                     for key in keys:
                         row[author+'_'+key]=dictio['rates'][author][key]
+                row['algprop']=dictio['algorithm']['prop']
+                row['alg']=dictio['algorithm']['id']
+                row['thd']=dictio['algorithm']['param']['threshold']
                 writer.writerow(row)
 if __name__=="__main__":
     #extract_for_R("C:/lucmiaz/Algorithms-analysis-report/results")
