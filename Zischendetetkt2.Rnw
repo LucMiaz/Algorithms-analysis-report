@@ -105,17 +105,29 @@ rocplotphc <- ggplot(bestPhC, aes(bestPhC$FPR,bestPhC$TPR,color=bestPhC$algprop,
     labs("ROC")
     ggsave('figures/PhC.pdf', plot=rocplotphc, width=8, height=6)
 @
+
+<<>>=
+best<-find_best(tf, qualities=c(3,2))
+best<-cbind(best, 'author'=rep('all',nrow(best)))
+for(author in unique(tf$author)){
+    author_best<-find_best(tf,authors=c(author), qualities=c(2,3))
+    best<- rbind(best, cbind(author_best,'author'=rep(author,length(author_best))))
+}    
+@
+
 <<>>=
 walloffame<- rbind(cbind(best, author='all'), cbind(bestesr,author='esr'),cbind(bestLuc,author='luc'),cbind(bestPhC,author='PhC'),cbind(bestPHF,author='PHF'))
 walloffamest<-filter(walloffame, walloffame$dist_ax>0.45 | (walloffame$author=='all' & walloffame$dist_ax>0.35))
 compressed<-walloffamest %>% group_by(algprop) %>% summarise( avgthres=mean(thd)) %>% arrange(avgthres)
 @
+
+
 <<>>=
 Datamaous2<-read.csv('WallofFame/Datamaous_2.csv')
-rocplotdatamaous <- ggplot(Datamaous2, aes(Datamaous2$FPR,Datamaous2$TPR,color=Datamaous2$algprop, title="Algorithms - datamaous"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
+rocplotdatamaous <- ggplot(Datamaous2, aes(Datamaous2$FPR,Datamaous2$TPR,color=Datamaous2$X, title="Algorithms - datamaous"))+  geom_segment(aes(x =0, y = 0, xend = 1, yend = 1), colour="#a5a5a5")+
     scale_colour_manual(values=rep(brewer.pal(12,"Paired"),times=2),name="Algorithms")+
-    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=3),name="Algorithms")+
-    geom_point(aes(shape=Datamaous2$algprop,label=Datamaous2$algprop),size=2)+
+    scale_shape_manual(values=rep(c(15,16,3,17,18,19),each=4),name="Algorithms")+
+    geom_point(aes(shape=Datamaous2$X,label=Datamaous2$X),size=3)+
     xlab("False Positive Rate") + ylab("True Positive Rate")+
     labs("ROC")
     ggsave('figures/datamaous.pdf', plot=rocplotdatamaous, width=8, height=6)

@@ -40,8 +40,7 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
       for (i in thresholds){
           tpfp=TPFP_func(algtf, i)
           #sums[nrow(sums)+1,]<- tpfp
-          sums<-rbind(sums, tpfp)
-          remove(dist_ax,d_ax, FPR,TPR)
+          sums[nrow(sums)+1,]<-tpfp
           
       }
       thresmax<-which.max(sums$dist_ax)
@@ -56,7 +55,6 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
       remove(sums,thresmax)
     }
   }
-  remove(FP,TP,totP,totF,algtf,thresholds,al,alp,tff, i)
   bestones<-cbind(bestones, data.frame('col'=as.integer(bestones$algprop)))
   
   bestones<-cbind(bestones, data.frame('dif'=bestones$TPR-bestones$FPR))
