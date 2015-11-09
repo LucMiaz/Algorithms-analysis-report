@@ -1,4 +1,5 @@
 TPFP_func<-function(df, threshold){
+  
   TP<-tally(filter(df, spec>threshold & disc==1))
   FP<-tally(filter(df, spec>threshold & disc==0))
   totP<-tally(filter(df,disc==1))
@@ -39,7 +40,6 @@ find_best<-function(tff, authors=list(), qualities=list(),fixedthreshold=FALSE, 
       delta<-thresholds[[2]]-thresholds[[1]]
       for (i in thresholds){
           tpfp=TPFP_func(algtf, i)
-          #sums[nrow(sums)+1,]<- tpfp
           sums[nrow(sums)+1,]<-tpfp
           
       }

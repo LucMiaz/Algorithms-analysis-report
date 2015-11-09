@@ -12,9 +12,11 @@ set.seed(53079239)
 
 <<import_json_file>>=
 setwd("C:/lucmiaz/algorithms-analysis-report")
+setwd("~/Documents/TRAVAIL/SBB_KG/Algorithms-analysis-report")
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
+library(tidyr)
 library(RColorBrewer)
 library(extrafont)
 require(tikzDevice)
@@ -24,7 +26,7 @@ csv_file="Datamaous.csv"
 tf<-read.csv(csv_file)
 remove(json_file)
 source('R/find_best.R')
-theme_bw<-theme_update(text=element_text(size=14, family="Helvetica Neue"), axis.text=element_text(family="Helvetica Neue"),legend.background=element_rect(fill="#f5f5f5"))
+ theme_bw<-theme_update(text=element_text(size=14, family="Helvetica Neue"), axis.text=element_text(family="Helvetica Neue"),legend.background=element_rect(fill="#f5f5f5"))
 theme_set(theme_bw())
 #clusters<-kmeans(tf$spec,1000)
 #tf[,'cluster']<-clusters$cluster
